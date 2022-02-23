@@ -56,13 +56,50 @@ button:hover {
   justify-content: center;
   align-items: center;
   padding: 15px;
-  background: -webkit-linear-gradient(to right, #00dbde, #fc00ff);
-  background: linear-gradient(to right, #00dbde, #fc00ff);
+
+
+
 }
+
+#id_img_fondo {    
+  width: 100%;  /* en porcentaje (el highlight del foro lo trasforma) */
+  height: 100%;
+  top:0 ;
+  left:0;
+  position:fixed;
+  z-index: -1;  
+}
+
+.sample-div {
+  position: relative;
+  width: 100%;  
+  min-height: 100vh;
+  display: -webkit-flex;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  size: cover;
+  
+}
+.transpa-bg{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.9;
+
+
+
+}
+
+
 
 .wrap-login {
   width: 400px;
-  background: #eceff1;
+  background: #d5f5fdef;
   border-radius: 20px;
   overflow: hidden;
   padding: 77px 55px 53px 55px;
@@ -136,10 +173,10 @@ button:hover {
   transition: all 0.4s;
 
   background: #6a7dfe;
-  background: -webkit-linear-gradient(left, #21d4fd, #b721ff);
-  background: -o-linear-gradient(left, #21d4fd, #b721ff);
-  background: -moz-linear-gradient(left, #21d4fd, #b721ff);
-  background: linear-gradient(left, #21d4fd, #b721ff);
+  background: -webkit-linear-gradient(left, #21d4fd, #2125ff);
+  background: -o-linear-gradient(left, #21d4fd, #2125ff);
+  background: -moz-linear-gradient(left, #21d4fd, #2125ff);
+  background: linear-gradient(left, #21d4fd, #2125ff);
 }
 
 .focus-efecto::after {
@@ -209,11 +246,11 @@ button:hover {
   z-index: -1;
   width: 300%;
   height: 100%;
-  background: #a64bf4;
-  background: -webkit-linear-gradient(right, #21d4fd, #b721ff, #21d4fd, #b721ff);
-  background: -o-linear-gradient(right, #21d4fd, #b721ff, #21d4fd, #b721ff);
-  background: -moz-linear-gradient(right, #21d4fd, #b721ff, #21d4fd, #b721ff);
-  background: linear-gradient(right, #21d4fd, #b721ff, #21d4fd, #b721ff);
+  background: #2125ff;
+  background: -webkit-linear-gradient(right, #21d4fd, #2125ff, #21d4fd, #2125ff);
+  background: -o-linear-gradient(right, #21d4fd, #2125ff, #21d4fd, #2125ff);
+  background: -moz-linear-gradient(right, #21d4fd, #2125ff, #21d4fd, #2125ff);
+  background: linear-gradient(right, #21d4fd, #2125ff, #21d4fd, #2125ff);
   top: 0;
   left: -100%;
 

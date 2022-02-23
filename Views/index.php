@@ -13,17 +13,48 @@
         
         <link rel="stylesheet" type="text/css" href="Assets/css/material-design-iconic-font.min.css">
 
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+       
+       
+       
         <link href="<?php echo base_url;?>Assets/css/styles.css" rel="stylesheet" />
         <script src="<?php echo base_url;?>Assets/js/all.min.js" crossorigin="anonymous"></script>
        
      
+        <script type="text/javascript">
+function mostrarPassword(){
+		var cambio = document.getElementById("clave");
+		if(cambio.type == "password"){
+			cambio.type = "text";
+			$('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+		}else{
+			cambio.type = "password";
+			$('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+		}
+	} 
+	
+
+</script>
 
     </head>
     
     <body>
-     
-      <div class="container-login">
+    
+   
+
+
+
+    <div class="transpa-bg"><img src="Views/img/ferreteria.png" id="id_img_fondo"></div>
+      <div class="sample-div">
+          
+    
+    
         <div class="wrap-login">
+
         <form id="frmLogin">
         <span class="login-form-title">LOGIN</span>
              <div class="form-group">
@@ -32,10 +63,15 @@
                 </div>
                 <div class="form-group">
                     <label class="small mb-1" for="clave"><i class="fas fa-key"></i> Contraseña</label>
-                      <input class="form-control py-4" id="clave" name="clave" type="password" placeholder="Ingrese Contraseña" />
-                     </div>
+                    <div class="input-group">
 
+                    <input class="form-control py-4" id="clave" name="clave" type="password" placeholder="Ingrese Contraseña" />
+                    <div class="input-group-append">
+            <button id="show_password" class="btn btn-primary btn-lg disabled" type="button" onclick="mostrarPassword()"> <span class="fa fa-eye-slash icon"></span> </button>
+          </div>
+                </div>
 
+                <label class="small mb-1" for="clave"></label>
                     <div class="alert alert-danger text-center d-none" id="alerta" role="alert">
 
                     </div>
