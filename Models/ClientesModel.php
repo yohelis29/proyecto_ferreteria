@@ -62,12 +62,15 @@ class ClientesModel extends Query{
         return $data;
     }
 
-    public function eliminarUser(int $id)
+    public function accionCli(int $estado, int $id)
     {
-        $sql = "DELETE  FROM dnis WHERE id = $id";
-        $data = $this->select($sql);
+        $this->id = $id;
+        $this->estado = $estado;
+        $sql = "UPDATE clientes SET estado = ? WHERE id = ?";
+        $datos = array($this->estado, $this->id);
+        $data = $this->save($sql, $datos);
         return $data;
-    }
+    } 
 
 }
 

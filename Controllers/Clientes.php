@@ -19,14 +19,17 @@
             for ($i=0; $i <count($data); $i++) {
                 if ($data[$i]['estado'] == 1) {
                     $data[$i]['estado'] = '<span class="badge bg-success">Activo</span>';
-                   
+                    $data[$i]['acciones'] = '<div>
+                    <button class="btn btn-primary" type="button" onclick="btnEditarCli(' . $data[$i]['id'] . ');"><i class="fas fa-edit"></i></button>
+                    <button class="btn btn-danger" type="button" onclick="btnEliminarCli(' . $data[$i]['id'] . ');"><i class="fas fa-circle"></i></button>
+                    <div/>';
                 }else {
                     $data[$i]['estado'] = '<span class="badge bg-danger">Inactivo</span>';
+                    $data[$i]['acciones'] = '<div>
+                    <button class="btn btn-success" type="button" onclick="btnReingresarCli(' . $data[$i]['id'] . ');"><i class="fas fa-circle"></i></button>
+                    <div/>';
                 }
-                $data[$i]['acciones'] = '<div>
-                <button class="btn btn-primary" type="button" onclick="btnEditarCli(' . $data[$i]['id'] . ');"><i class="fas fa-edit"></i></button>
-                <button class="btn btn-danger" type="button" onclick="btnEliminarCli(' . $data[$i]['id'] . ');"><i class="fas fa-trash-alt"></i></button>
-                <div/>';
+                
             }
             echo json_encode($data, JSON_UNESCAPED_UNICODE);
             die();
@@ -107,10 +110,27 @@
         }
         public function eliminar(int $id)
         {
-            $data = $this->model->eliminarUser($id);
+            $data = $this->model->accionCli(0, $id);
+            if ($data == 1) {
+                $msg ="ok";
     
-                $msg = "ok";
-            
+            }else{
+                $msg ="Error al desactivar";
+    
+            }
+            echo json_encode($msg, JSON_UNESCAPED_UNICODE);
+            die();
+        }
+        public function reingresar(int $id)
+        {
+            $data = $this->model->accionCli(1, $id);
+            if ($data == 1) {
+                $msg ="ok";
+    
+            } else {
+                $msg = "error al reingresar";
+    
+            }
             echo json_encode($msg, JSON_UNESCAPED_UNICODE);
             die();
         }

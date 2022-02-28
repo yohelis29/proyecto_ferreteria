@@ -88,6 +88,7 @@ function registrarUser(e) {
                     }) 
                     $("#nuevo_usuario").modal("hide");
                     tblUsuarios.ajax.reload();
+                    
                 }else{
                     Swal.fire({
                        
@@ -207,6 +208,7 @@ function registrarCli(e) {
                     frm.reset();
                     $("#nuevo_Cliente").modal("hide");
                     tblClientes.ajax.reload();
+                    
                 }else if (res == "modificado") {
                     Swal.fire({
                         
@@ -254,10 +256,10 @@ function btnEditarCli(id) {
         }
     
 }
-function btnEliminarUser(id) {
+function btnEliminarCli(id) {
     Swal.fire({
-        title: '¿Está seguro de eliminar?',
-        text: "¡El usuario se eliminara de forma permanente!",
+        title: '¿Está seguro de desactivar?',
+        text: "¡El cliente se desactivara!",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -266,7 +268,7 @@ function btnEliminarUser(id) {
         cancelButtonText: 'No',
       }).then((result) => {
         if (result.isConfirmed) {
-             const url = base_url + "Usuarios/eliminar/"+id;
+             const url = base_url + "Clientes/eliminar/"+id;
              const http = new XMLHttpRequest();
              http.open("GET", url, true);
              http.send();
@@ -276,10 +278,10 @@ function btnEliminarUser(id) {
                 if (res == "ok") {
                     Swal.fire(
                         'Mensaje',
-                        'Usuario eliminado con éxito',
+                        'Cliente desactivado con éxito',
                         'success'
                       )
-                      tblUsuarios.ajax.reload();
+                      tblClientes.ajax.reload();
                 }else{ Swal.fire(
                     'Mensaje',
                     res,
@@ -291,3 +293,42 @@ function btnEliminarUser(id) {
         }
       })
 }
+function btnReingresarCli(id) {
+    Swal.fire({
+        title: 'Esta seguro de reingresar?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si!',
+        cancelButtonText: 'No'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const url = base_url + "Clientes/reingresar/" + id;
+            const http = new XMLHttpRequest();
+            http.open("GET", url, true);
+            http.send();
+            http.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    const res = JSON.parse(this.responseText);
+                    if (this.readyState == 4 && this.status == 200) {
+                        const res = JSON.parse(this.responseText);
+                        if (res == "ok") {
+                            Swal.fire(
+                                'Mensaje',
+                                'Cliente activado con éxito',
+                                'success'
+                              )
+                              tblClientes.ajax.reload();
+                        }else{ Swal.fire(
+                            'Mensaje',
+                            res,
+                            'error'
+                          )}
+                    }
+                }
+            }
+        }
+    })
+}
+
