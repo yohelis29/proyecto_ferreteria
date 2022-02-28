@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         ]
     } );
-    tblUsuarios = $('#tblClientes').DataTable( {
+    tblClientes = $('#tblClientes').DataTable( {
         ajax: {
             url: base_url + "Clientes/listar" ,
             dataSrc: ''
@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         ]
     } );
-    tblUsuarios = $('#tblCajas').DataTable( {
+    tblCajas = $('#tblCajas').DataTable( {
         ajax: {
             url: base_url + "Cajas/listar" ,
             dataSrc: ''
@@ -90,7 +90,7 @@ function registrarUser(e) {
                     }) 
                     frm.reset();
                     $("#nuevo_usuario").modal("hide");
-                  //  tblUsuarios.ajax.reload();
+                  tblUsuarios.ajax.reload();
                 }else if (res == "modificado") {
                     Swal.fire({
                         
@@ -100,7 +100,7 @@ function registrarUser(e) {
                         timer: 3000
                     }) 
                     $("#nuevo_usuario").modal("hide");
-                  //  tblUsuarios.ajax.reload();
+                  tblUsuarios.ajax.reload();
                     
                 }else{
                     Swal.fire({
@@ -220,7 +220,7 @@ function registrarCli(e) {
                     }) 
                     frm.reset();
                     $("#nuevo_Cliente").modal("hide");
-                   // tblClientes.ajax.reload();
+                   tblClientes.ajax.reload();
                     
                 }else if (res == "modificado") {
                     Swal.fire({
@@ -230,7 +230,8 @@ function registrarCli(e) {
                         showConfirmButton: false,
                         timer: 3000
                     }) 
-                  //  tblClientes.ajax.reload();
+                  tblClientes.ajax.reload();
+                  $("#nuevo_Cliente").modal("hide");
                    
                 }else{
                     Swal.fire({
@@ -384,7 +385,7 @@ function registrarCaja(e) {
                     }) 
                     frm.reset();
                     $("#nuevoCaja").modal("hide");
-                  //  tblCajas.ajax.reload();                    
+                   tblCajas.ajax.reload();                    
                 }else if (res == "modificado") {
                     Swal.fire({
                         
@@ -394,7 +395,7 @@ function registrarCaja(e) {
                         timer: 3000
                     }) 
                     $("#nuevoCaja").modal("hide");
-                //    tblCajas.ajax.reload();
+                    tblCajas.ajax.reload();
                    
                 }else{
                     Swal.fire({
@@ -488,7 +489,7 @@ function btnReingresarCaja(id) {
                                 'Caja activado con éxito',
                                 'success'
                               )
-                              //tblCajas.ajax.reload();
+                              tblCajas.ajax.reload();
                         }else{ Swal.fire(
                             'Mensaje',
                             res,
