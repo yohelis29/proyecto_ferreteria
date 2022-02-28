@@ -43,7 +43,7 @@
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
                                     <a class="nav-link" href="<?php echo base_url;?>Usuarios"><i class="fas fa-user mr-2"></i>Usuarios</a>
-                                    <a class="nav-link" href="layout-sidenav-light.html">Cajas</a>
+                                    <a class="nav-link" href="<?php echo base_url; ?>Cajas"><i class="fas fa-box mr-2"></i>Cajas</a>
                                 </nav>
                             </div>
                             <a class="nav-link" href="<?php echo base_url;?>Clientes">

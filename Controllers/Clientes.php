@@ -35,32 +35,6 @@
             die();
         }
 
-        public function validar()
-        {
-            if (empty($_POST['dni']) || empty($_POST['clave'])) {
-                $msg = "¡Los campos estan vacios!";
-            }else{
-                $dni = $_POST['dni'];
-                $clave = $_POST['clave'];
-             
-                $hash = hash("SHA256", $clave);
-                $data = $this->model->getdni($dni, $hash,);
-                if ($data) {
-                    $_SESSION['id_dni'] = $data['id'];
-                    $_SESSION['dni'] = $data['dni'];
-                    $_SESSION['nombre'] = $data['nombre'];
-                    $_SESSION['activo'] = true;
-                    $msg = "ok";
-                }else{
-                    $msg =  "¡dni o contraseña incorrecta!";
-                }
-
-            }
-
-            //print_r($data);
-            echo json_encode($msg, JSON_UNESCAPED_UNICODE);
-            die();
-        }
         public function registrar()
         {
            $dni = $_POST['dni'];

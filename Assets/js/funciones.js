@@ -1,4 +1,4 @@
-let tblUsuarios, tblClientes;
+let tblUsuarios, tblClientes,tblCajas;
 document.addEventListener("DOMContentLoaded", function () {
     tblUsuarios = $('#tblUsuarios').DataTable( {
         ajax: {
@@ -26,6 +26,19 @@ document.addEventListener("DOMContentLoaded", function () {
             {'data' : 'nombre'},
             {'data' : 'telefono'},
             {'data' : 'direccion'},
+            {'data' : 'estado'},
+            {'data' : 'acciones'}
+
+        ]
+    } );
+    tblUsuarios = $('#tblCajas').DataTable( {
+        ajax: {
+            url: base_url + "Cajas/listar" ,
+            dataSrc: ''
+        },
+        columns: [ 
+            {'data' : 'id'},
+            {'data' : 'caja'},
             {'data' : 'estado'},
             {'data' : 'acciones'}
 
@@ -77,7 +90,7 @@ function registrarUser(e) {
                     }) 
                     frm.reset();
                     $("#nuevo_usuario").modal("hide");
-                    tblUsuarios.ajax.reload();
+                  //  tblUsuarios.ajax.reload();
                 }else if (res == "modificado") {
                     Swal.fire({
                         
@@ -87,7 +100,7 @@ function registrarUser(e) {
                         timer: 3000
                     }) 
                     $("#nuevo_usuario").modal("hide");
-                    tblUsuarios.ajax.reload();
+                  //  tblUsuarios.ajax.reload();
                     
                 }else{
                     Swal.fire({
@@ -207,7 +220,7 @@ function registrarCli(e) {
                     }) 
                     frm.reset();
                     $("#nuevo_Cliente").modal("hide");
-                    tblClientes.ajax.reload();
+                   // tblClientes.ajax.reload();
                     
                 }else if (res == "modificado") {
                     Swal.fire({
@@ -217,8 +230,7 @@ function registrarCli(e) {
                         showConfirmButton: false,
                         timer: 3000
                     }) 
-                    $("#nuevo_Cliente").modal("hide");
-                    tblClientes.ajax.reload();
+                  //  tblClientes.ajax.reload();
                    
                 }else{
                     Swal.fire({
@@ -331,4 +343,160 @@ function btnReingresarCli(id) {
         }
     })
 }
+///Fin cliente
 
+function frmCaja() {
+    document.getElementById("title").textContent = "Nuevo Caja";
+    document.getElementById("btnAccion").textContent = "Registrar";
+    document.getElementById("frmCaja").reset();
+    document.getElementById("id").value = "";
+    $('#nuevoCaja').modal('show');
+
+}
+function registrarCaja(e) {
+    e.preventDefault();
+    const nombre = document.getElementById("nombre");
+    if (nombre.value == "") {
+        Swal.fire({
+          
+            icon: 'error',
+            title: 'Todos los campos son obligatorios!',
+            showConfirmButton: false,
+            timer: 3000
+        })
+    }else{
+        const url = base_url + "Cajas/registrar";
+        const frm = document.getElementById("frmCaja");
+        const http = new XMLHttpRequest();
+        http.open("POST", url, true);
+        http.send(new FormData(frm));
+        http.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                        // console.log(this.responseText);
+               const res = JSON.parse(this.responseText);
+                if (res == "si") {
+                    Swal.fire({
+                     
+                        icon: 'success',
+                        title: 'Caja registrada correctamente',
+                        showConfirmButton: false,
+                        timer: 3000
+                    }) 
+                    frm.reset();
+                    $("#nuevoCaja").modal("hide");
+                  //  tblCajas.ajax.reload();                    
+                }else if (res == "modificado") {
+                    Swal.fire({
+                        
+                        icon: 'success',
+                        title: 'Caja modificado correctamente',
+                        showConfirmButton: false,
+                        timer: 3000
+                    }) 
+                    $("#nuevoCaja").modal("hide");
+                //    tblCajas.ajax.reload();
+                   
+                }else{
+                    Swal.fire({
+                       
+                        icon: 'error',
+                        title: res,
+                        showConfirmButton: false,
+                        timer: 3000
+                    }) 
+                }
+            }
+        }
+    }
+}
+function btnEditarCaja(id) {
+    document.getElementById("title").textContent = "Actualizar caja";
+    document.getElementById("btnAccion").textContent = "Modificar";
+    const url = base_url + "Cajas/editar/" + id;
+    const http = new XMLHttpRequest();
+    http.open("GET", url, true);
+    http.send();
+    http.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            const res = JSON.parse(this.responseText);
+            document.getElementById("id").value = res.id;
+            document.getElementById("nombre").value = res.caja;
+            $('#nuevoCaja').modal('show');
+        }
+    }
+}
+function btnEliminarCaja(id) {
+    Swal.fire({
+        title: '¿Está seguro de desactivar?',
+        text: "¡La caja se desactivara!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí',
+        cancelButtonText: 'No',
+      }).then((result) => {
+        if (result.isConfirmed) {
+             const url = base_url + "Cajas/eliminar/"+id;
+             const http = new XMLHttpRequest();
+             http.open("GET", url, true);
+             http.send();
+             http.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                const res = JSON.parse(this.responseText);
+                if (res == "ok") {
+                    Swal.fire(
+                        'Mensaje',
+                        'Caja desactivada con éxito',
+                        'success'
+                      )
+                      //tblCajas.ajax.reload();
+                }else{ Swal.fire(
+                    'Mensaje',
+                    res,
+                    'error'
+                  )}
+            }
+        }
+          
+        }
+      })
+}
+function btnReingresarCaja(id) {
+    Swal.fire({
+        title: 'Esta seguro de reingresar?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si!',
+        cancelButtonText: 'No'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const url = base_url + "Cajas/reingresar/" + id;
+            const http = new XMLHttpRequest();
+            http.open("GET", url, true);
+            http.send();
+            http.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    const res = JSON.parse(this.responseText);
+                    if (this.readyState == 4 && this.status == 200) {
+                        const res = JSON.parse(this.responseText);
+                        if (res == "ok") {
+                            Swal.fire(
+                                'Mensaje',
+                                'Caja activado con éxito',
+                                'success'
+                              )
+                              //tblCajas.ajax.reload();
+                        }else{ Swal.fire(
+                            'Mensaje',
+                            res,
+                            'error'
+                          )}
+                    }
+                }
+            }
+        }
+    })
+}//Fin Cajas
