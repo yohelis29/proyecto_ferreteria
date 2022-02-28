@@ -42,11 +42,14 @@
                             </a>
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="<?php echo base_url;?>Usuarios"><i class="fas fa-user fa-fw"></i>Usuarios</a>
+                                    <a class="nav-link" href="<?php echo base_url;?>Usuarios"><i class="fas fa-user mr-2"></i>Usuarios</a>
                                     <a class="nav-link" href="layout-sidenav-light.html">Cajas</a>
                                 </nav>
                             </div>
-                            
+                            <a class="nav-link" href="<?php echo base_url;?>Clientes">
+                                <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                                Clientes            
+                            </a>
                         </div>
                     </div>
                 </nav>
