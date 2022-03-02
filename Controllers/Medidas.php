@@ -1,5 +1,5 @@
 <?php
-    class Categorias extends Controller{
+    class Medidas extends Controller{
         public function __construct() {
             session_start();
             if (empty($_SESSION['activo'])) {
@@ -15,18 +15,18 @@
         }
         public function listar()
         {
-            $data = $this->model->getCategorias();
+            $data = $this->model->getMedidas();
             for ($i=0; $i <count($data); $i++) {
                 if ($data[$i]['estado'] == 1) {
                     $data[$i]['estado'] = '<span class="badge bg-success">Activo</span>';
                     $data[$i]['acciones'] = '<div>
-                    <button class="btn btn-primary" type="button" onclick="btnEditarCate(' . $data[$i]['id'] . ');"><i class="fas fa-edit"></i></button>
-                    <button class="btn btn-danger" type="button" onclick="btnEliminarCate(' . $data[$i]['id'] . ');"><i class="fas fa-circle"></i></button>
+                    <button class="btn btn-primary" type="button" onclick="btnEditarMedida(' . $data[$i]['id'] . ');"><i class="fas fa-edit"></i></button>
+                    <button class="btn btn-danger" type="button" onclick="btnEliminarMedida(' . $data[$i]['id'] . ');"><i class="fas fa-circle"></i></button>
                     <div/>';
                 }else {
                     $data[$i]['estado'] = '<span class="badge bg-danger">Inactivo</span>';
                     $data[$i]['acciones'] = '<div>
-                    <button class="btn btn-success" type="button" onclick="btnReingresarCate(' . $data[$i]['id'] . ');"><i class="fas fa-circle"></i></button>
+                    <button class="btn btn-success" type="button" onclick="btnReingresarMedida(' . $data[$i]['id'] . ');"><i class="fas fa-circle"></i></button>
                     <div/>';
                 }
                 
@@ -39,32 +39,33 @@
         {
            
            $nombre = $_POST['nombre'];
+           $nombre_corto = $_POST['nombre_corto'];
            $id = $_POST['id'];
          
            
-           if ( empty($nombre) ) {
+           if ( empty($nombre) || empty($nombre_corto)) {
                $msg = "Todos los campos son obligatorios";
            }else {
             if ($id=="") {
                 
-                $data=  $this->model->registrarCategoria($nombre);
+                $data=  $this->model->registrarMedi($nombre,$nombre_corto);
                 if ($data == "ok") {
                    $msg = "si";
                 }else if($data == "existe"){
-                   $msg = "La categoría ya existe";
+                   $msg = "La medida ya existe";
                 }else {
-                    $msg ="Error al registrar la Categoría";
+                    $msg ="Error al registrar la medida";
                 }
                 
                 
             }else {
-                $data=  $this->model->modificarCate($nombre,$id);
+                $data=  $this->model->modificarMedi($nombre, $nombre_corto,$id);
                 if ($data == "modificado") {
                    $msg = "modificado";
                 }else if($data=="existe") {
-                    $msg ="categoría ya Existe";
+                    $msg ="Medida ya Existe";
                 }else{
-                    $msg ="Error al modificar la Categoría"; 
+                    $msg ="Error al modificar la Medida"; 
                 }
             }
             
@@ -78,14 +79,14 @@
 
         public function editar(int $id)
         {
-            $data = $this->model->editarCate($id);
+            $data = $this->model->editarMedi($id);
             echo json_encode($data, JSON_UNESCAPED_UNICODE);
             die();
         }
 
         public function eliminar(int $id)
         {
-            $data = $this->model->accionCate(0, $id);
+            $data = $this->model->accionMedi(0, $id);
             if ($data == 1) {
                 $msg ="ok";
     
@@ -100,7 +101,7 @@
 
         public function reingresar(int $id)
         {
-            $data = $this->model->accionCate(1, $id);
+            $data = $this->model->accionMedi(1, $id);
             if ($data == 1) {
                 $msg ="ok";
     

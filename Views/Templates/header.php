@@ -55,6 +55,24 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-sitemap"></i></div>
                                 Categorias            
                             </a>
+
+                            <a class="nav-link" href="<?php echo base_url;?>Medidas">
+                                <div class="sb-nav-link-icon"><i class="fa fa-balance-scale" ></i></div>
+                                Medidas          
+                            </a>
+
+                            <a class="nav-link" href="<?php echo base_url;?>Productos">
+                                <div class="sb-nav-link-icon"><i class="fab fa-product-hunt" ></i></div>
+                                Productos            
+                            </a>
+                            
+                            <a class="nav-link" href="<?php echo base_url;?>Proveedores">
+                                <div class="sb-nav-link-icon"><i class="fa fa-truck" ></i></div>
+                                Proveedores            
+                            </a>
+
+                          
+
                         </div>
                     </div>
                 </nav>
