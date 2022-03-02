@@ -1,4 +1,4 @@
-let tblUsuarios, tblClientes,tblCajas, tblCategorias, tblMedidas;
+let tblUsuarios, tblClientes,tblCajas, tblCategorias, tblMedidas, tblProveedores;
 document.addEventListener("DOMContentLoaded", function () {
     tblUsuarios = $('#tblUsuarios').DataTable( {
         ajax: {
@@ -69,6 +69,22 @@ document.addEventListener("DOMContentLoaded", function () {
             {'data' : 'id'},
             {'data' : 'nombre'},
             {'data' : 'nombre_corto'},
+            {'data' : 'estado'},
+            {'data' : 'acciones'}
+
+        ]
+    } );
+
+     // Tabla Proveedores
+     tblProveedores = $('#tblProveedores').DataTable( {
+        ajax: {
+            url: base_url + "Proveedores/listar" ,
+            dataSrc: ''
+        },
+        columns: [ 
+            {'data' : 'id'},
+            {'data' : 'nombre'},
+            {'data' : 'telefono'},
             {'data' : 'estado'},
             {'data' : 'acciones'}
 
@@ -871,3 +887,176 @@ function btnReingresarMedida(id) {
 }
 
 // fin Medidas
+
+//--------------------------------------------------------------------------------------------------------------
+//Comienzo Proveedores
+function frmProveedor() {
+    document.getElementById("title").innerHTML="Nuevo Proveedor";
+    document.getElementById("btnAccion").innerHTML="Registrar";
+    document.getElementById("frmProveedor").reset();
+          document.getElementById("id").value = ""; 
+        $("#nuevo_Proveedor").modal("show");
+     
+
+ 
+}
+
+function registrarProveedor(e) {
+    e.preventDefault();
+    const nombre = document.getElementById("nombre");
+    const telefono = document.getElementById("telefono");
+    
+    if ( nombre.value == "" || telefono.value=="" ) {
+        Swal.fire({
+          
+            icon: 'error',
+            title:'¡Todos los campos son obligatorios!',
+            showConfirmButton: false,
+            timer: 3000
+        })
+    }else{
+        const url = base_url + "Proveedores/registrar";
+        const frm = document.getElementById("frmProveedor");
+        const http = new XMLHttpRequest();
+        http.open("POST", url, true);
+        http.send(new FormData(frm));
+        http.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                        // console.log(this.responseText);
+               const res = JSON.parse(this.responseText);
+                if (res == "si") {
+                    Swal.fire({
+                     
+                        icon: 'success',
+                        title: 'Proveedor registrado correctamente',
+                        showConfirmButton: false,
+                        timer: 3000
+                    }) 
+                    frm.reset();
+                    $("#nuevo_Proveedor").modal("hide");
+                   tblProveedores.ajax.reload();
+                    
+                }else if (res == "modificado") {
+                    Swal.fire({
+                        
+                        icon: 'success',
+                        title: 'Proveedor modificado correctamente',
+                        showConfirmButton: false,
+                        timer: 3000
+                    }) 
+                  tblProveedores.ajax.reload();
+                  $("#nuevo_Proveedor").modal("hide");
+                   
+                }else{
+                    Swal.fire({
+                       
+                        icon: 'error',
+                        title: res,
+                        showConfirmButton: false,
+                        timer: 3000
+                    }) 
+                }
+            }
+        }
+    }
+
+
+}
+function btnEditarProv(id) {
+    document.getElementById("title").innerHTML="Editar Proveedor";
+    document.getElementById("btnAccion").innerHTML="Actualizar";
+    const url = base_url + "Proveedores/editar/"+id;
+        const http = new XMLHttpRequest();
+        http.open("GET", url, true);
+        http.send();
+        http.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                const res = JSON.parse(this.responseText);
+                document.getElementById("id").value = res.id; 
+                document.getElementById("nombre").value = res.nombre;
+                document.getElementById("telefono").value = res.telefono;
+                $("#nuevo_Proveedor").modal("show");
+               
+            }
+        }
+    
+}
+function btnEliminarProv(id) {
+    Swal.fire({
+        title: '¿Está seguro de desactivar?',
+        text: "¡El proveedor se desactivara!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí',
+        cancelButtonText: 'No',
+      }).then((result) => {
+        if (result.isConfirmed) {
+             const url = base_url + "Proveedores/eliminar/"+id;
+             const http = new XMLHttpRequest();
+             http.open("GET", url, true);
+             http.send();
+             http.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                const res = JSON.parse(this.responseText);
+                if (res == "ok") {
+                    Swal.fire(
+                        'Mensaje',
+                        'Proveedor desactivado con éxito',
+                        'success'
+                      )
+                      tblProveedores.ajax.reload();
+                }else{ Swal.fire(
+                    'Mensaje',
+                    res,
+                    'error'
+                  )}
+            }
+        }
+          
+        }
+      })
+}
+function btnReingresarProv(id) {
+    Swal.fire({
+        title: 'Esta seguro de reingresar?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si!',
+        cancelButtonText: 'No'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const url = base_url + "Proveedores/reingresar/" + id;
+            const http = new XMLHttpRequest();
+            http.open("GET", url, true);
+            http.send();
+            http.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    const res = JSON.parse(this.responseText);
+                    if (this.readyState == 4 && this.status == 200) {
+                        const res = JSON.parse(this.responseText);
+                        if (res == "ok") {
+                            Swal.fire(
+                                'Mensaje',
+                                'Proveedor activado con éxito',
+                                'success'
+                              )
+                              tblProveedores.ajax.reload();
+                        }else{ Swal.fire(
+                            'Mensaje',
+                            res,
+                            'error'
+                          )}
+                    }
+                }
+            }
+        }
+    })
+}
+
+// fin Proveedores
+
+
