@@ -50,6 +50,11 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                                 Clientes            
                             </a>
+
+                            <a class="nav-link" href="<?php echo base_url;?>Categorias">
+                                <div class="sb-nav-link-icon"><i class="fas fa-sitemap"></i></div>
+                                Categorias            
+                            </a>
                         </div>
                     </div>
                 </nav>
