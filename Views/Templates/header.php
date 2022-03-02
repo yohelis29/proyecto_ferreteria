@@ -36,23 +36,23 @@
                         <div class="nav">
                             
                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tools"></i></div>
+                                <div class="sb-nav-link-icon"><i class="fas fa-tools text-primary"></i></div>
                                 Configuraciones
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down text-primary"></i></div>
                             </a>
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="<?php echo base_url;?>Usuarios"><i class="fas fa-user mr-2"></i>Usuarios</a>
-                                    <a class="nav-link" href="<?php echo base_url; ?>Cajas"><i class="fas fa-box mr-2"></i>Cajas</a>
+                                    <a class="nav-link" href="<?php echo base_url;?>Usuarios"><i class="fas fa-user text-primary mr-2"></i>Usuarios</a>
+                                    <a class="nav-link" href="<?php echo base_url; ?>Cajas"><i class="fas fa-box text-primary mr-2"></i>Cajas</a>
                                 </nav>
                             </div>
                             <a class="nav-link" href="<?php echo base_url;?>Clientes">
-                                <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                                <div class="sb-nav-link-icon"><i class="fas fa-users text-primary"></i></div>
                                 Clientes            
                             </a>
 
                             <a class="nav-link" href="<?php echo base_url;?>Categorias">
-                                <div class="sb-nav-link-icon"><i class="fas fa-sitemap"></i></div>
+                                <div class="sb-nav-link-icon"><i class="fas fa-sitemap text-primary"></i></div>
                                 Categorias            
                             </a>
 
