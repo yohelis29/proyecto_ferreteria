@@ -34,6 +34,7 @@
             die();
         }
 
+        
         public function validar()
         {
             if (empty($_POST['usuario']) || empty($_POST['clave'])) {
