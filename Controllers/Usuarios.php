@@ -43,7 +43,7 @@
                 $clave = $_POST['clave'];
              
                 $hash = hash("SHA256", $clave);
-                $data = $this->model->getUsuario($usuario, $hash,);
+                $data = $this->model->getUsuario($usuario, $hash);
                 if ($data) {
                     $_SESSION['id_usuario'] = $data['id'];
                     $_SESSION['usuario'] = $data['usuario'];
