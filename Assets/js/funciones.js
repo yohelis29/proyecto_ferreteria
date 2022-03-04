@@ -1,4 +1,4 @@
-let tblUsuarios, tblClientes,tblCajas, tblCategorias, tblMedidas, tblProveedores;
+let tblUsuarios, tblClientes,tblCajas, tblCategorias, tblMedidas, tblProveedores, tblProductos;
 document.addEventListener("DOMContentLoaded", function () {
     tblUsuarios = $('#tblUsuarios').DataTable( {
         ajax: {
@@ -59,6 +59,8 @@ document.addEventListener("DOMContentLoaded", function () {
         ]
     } );
 
+   
+
     // Tabla Medidas
     tblMedidas = $('#tblMedidas').DataTable( {
         ajax: {
@@ -90,6 +92,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
         ]
     } );
+
+     // Tabla productos
+     tblProductos = $('#tblProductos').DataTable( {
+        ajax: {
+            url: base_url + "Productos/listar" ,
+            dataSrc: ''
+        },
+        columns: [ 
+            {'data' : 'id'},
+            {'data' : 'codigo'},
+            {'data' : 'descripcion'},
+            {'data' : 'precio_venta'},
+            {'data' : 'cantidad'},
+            {'data' : 'estado'},
+            {'data' : 'acciones'}
+
+        ]
+    } );
+
+
 })
 
 function frmUsuario() {
@@ -724,25 +746,28 @@ function frmProducto() {
     document.getElementById("id").value = "";
     $("#nuevo_producto").modal("show");
 }
-function registrarUser(e) {
+function registrarPro(e) {
     e.preventDefault();
-    const usuario = document.getElementById("usuario");
+    const codigo = document.getElementById("codigo");
     const nombre = document.getElementById("nombre");
-    const clave = document.getElementById("clave");
-    const confirmar = document.getElementById("confirmar");
-    const caja = document.getElementById("caja");
-
-    if (usuario.value == "" || nombre.value == "" || caja.value == "" ) {
-        Swal.fire({
-          
+    const precio_compra = document.getElementById("precio_compra");
+    const precio_venta = document.getElementById("precio_venta");
+    const id_medida = document.getElementById("medida");
+    const id_categoria = document.getElementById("categoria");
+    const id_proveedor = document.getElementById("proveedor");
+    console.log(nombre);
+    if (codigo.value == "" || nombre.value == "" || precio_compra.value == "" || precio_venta.value == "" 
+    || id_categoria.value == "" || id_medida.value == "" || id_proveedor.value ==  "") {
+        
+        Swal.fire({      
             icon: 'error',
             title: 'Todos los campos son obligatorios!',
             showConfirmButton: false,
             timer: 3000
         })
     }else{
-        const url = base_url + "Usuarios/registrar";
-        const frm = document.getElementById("frmUsuario");
+        const url = base_url + "Productos/registrar";
+        const frm = document.getElementById("frmProducto");
         const http = new XMLHttpRequest();
         http.open("POST", url, true);
         http.send(new FormData(frm));
@@ -754,23 +779,23 @@ function registrarUser(e) {
                     Swal.fire({
                      
                         icon: 'success',
-                        title: 'Usuario registrado correctamente',
+                        title: 'Producto registrado exitosamente',
                         showConfirmButton: false,
                         timer: 3000
                     }) 
                     frm.reset();
-                    $("#nuevo_usuario").modal("hide");
-                  tblUsuarios.ajax.reload();
+                    $("#nuevo_producto").modal("hide");
+                  tblProductos.ajax.reload();
                 }else if (res == "modificado") {
                     Swal.fire({
                         
                         icon: 'success',
-                        title: 'Usuario modificado correctamente',
+                        title: 'Producto actualizado correctamente',
                         showConfirmButton: false,
                         timer: 3000
                     }) 
-                    $("#nuevo_usuario").modal("hide");
-                  tblUsuarios.ajax.reload();
+                    $("#nuevo_producto").modal("hide");
+                  tblProductos.ajax.reload();
                     
                 }else{
                     Swal.fire({
@@ -787,30 +812,34 @@ function registrarUser(e) {
 
 
 }
-function btnEditarUser(id) {
-    document.getElementById("title").innerHTML="Editar usuario";
-    document.getElementById("btnAccion").innerHTML="Actualizar";
-    const url = base_url + "Usuarios/editar/"+id;
+function btnEditarPro(id) {
+    document.getElementById("title").innerHTML="Actualizar Producto";
+    document.getElementById("btnAccion").innerHTML="Modificar";
+    const url = base_url + "Productos/editar/"+id;
         const http = new XMLHttpRequest();
         http.open("GET", url, true);
         http.send();
         http.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
+                //console.log(this.responseText);
                 const res = JSON.parse(this.responseText);
-                usuario = document.getElementById("id").value = res.id;
-                usuario = document.getElementById("usuario").value = res.usuario;
-                nombre = document.getElementById("nombre").value = res.nombre;
-                caja = document.getElementById("caja").value = res.id_caja;
-                document.getElementById("claves").classList.add("d-none");
-                $("#nuevo_usuario").modal("show");
+                document.getElementById("id").value = res.id;
+                document.getElementById("codigo").value = res.codigo;
+                document.getElementById("nombre").value = res.descripcion;
+                document.getElementById("precio_compra").value = res.precio_compra;
+                document.getElementById("precio_venta").value = res.precio_venta;
+                document.getElementById("medida").value = res.id_medida;
+                document.getElementById("categoria").value = res.id_categoria;
+                document.getElementById("proveedor").value = res.id_proveedor;
+                $("#nuevo_producto").modal("show"); 
             }
         }
     
 }
-function btnEliminarUser(id) {
+function btnEliminarPro(id) {
     Swal.fire({
-        title: '¿Está seguro de eliminar?',
-        text: "¡El usuario se eliminara de forma permanente!",
+        title: '¿Está seguro de eliminar el usuario?',
+        text: "¡El producto se eliminara de forma permanente!",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -819,7 +848,7 @@ function btnEliminarUser(id) {
         cancelButtonText: 'No',
       }).then((result) => {
         if (result.isConfirmed) {
-             const url = base_url + "Usuarios/eliminar/"+id;
+             const url = base_url + "Productos/eliminar/"+id;
              const http = new XMLHttpRequest();
              http.open("GET", url, true);
              http.send();
@@ -829,10 +858,10 @@ function btnEliminarUser(id) {
                 if (res == "ok") {
                     Swal.fire(
                         'Mensaje',
-                        'Usuario eliminado con éxito',
+                        'Producto eliminado con éxito',
                         'success'
                       )
-                      tblUsuarios.ajax.reload();
+                      tblProductos.ajax.reload();
                 }else{ Swal.fire(
                     'Mensaje',
                     res,

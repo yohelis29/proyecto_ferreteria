@@ -78,6 +78,18 @@
                         </div>
 
                     </div>
+                    <div class="row">
+                    <div class="col-6">
+                            <div class="form-group">
+                                <label for="proveedor">Proveedor</label>
+                                <select id="proveedor" class="form-control" name="proveedor">
+                                <?php foreach ($data['proveedores'] as $row) { ?>
+                                        <option value="<?php echo $row['id']; ?>"><?php echo $row['nombre']; ?></option>
+                                <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                     <button class="btn btn-primary mb-2" type="button" onclick="registrarPro(event);" id= "btnAccion">Registrar</button>
                 </form>
             </div>
