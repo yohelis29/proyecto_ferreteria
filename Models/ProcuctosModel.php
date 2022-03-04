@@ -5,12 +5,7 @@ class ProductosModel extends Query{
     {
         parent:: __construct();
     }
-    public function getProducto(string $Producto, string $clave)
-    {
-        $sql = "SELECT * FROM Productos WHERE Producto = '$Producto' AND clave = '$clave'";
-        $data = $this->select($sql);
-        return $data;
-    }
+    
     public function getMedidas()
     {
         $sql = "SELECT * FROM medidas WHERE estado = 1";

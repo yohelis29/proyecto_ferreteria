@@ -716,7 +716,7 @@ function btnReingresarCate(id) {
 }
 
 // fin Categorias
-// Funciones para regostro de productos
+// Funciones para registro de productos
 function frmProducto() {
     document.getElementById("title").innerHTML="Registrar Producto";
     document.getElementById("btnAccion").innerHTML="Registrar";

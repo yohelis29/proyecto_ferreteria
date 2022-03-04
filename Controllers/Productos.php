@@ -13,7 +13,7 @@
             }
             //$data['medidas']=$this->model->getMedidas();
             //$data['categorias']=$this->model->getCategorias();
-            //print_r($this->model->getProducto());
+            //print_r($this->model->getMedidas());
             $this->views->getView($this, "index", $data);
         }
         public function listar()
