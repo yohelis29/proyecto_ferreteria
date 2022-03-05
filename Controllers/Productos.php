@@ -119,7 +119,7 @@
             if ($data == 1) {
                 $msg = "ok";
             }else {
-                $msg = "ok";
+                $msg = "No se pudo eliminar el producto";
             }
             echo json_encode($msg, JSON_UNESCAPED_UNICODE);
             die();

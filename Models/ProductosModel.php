@@ -30,8 +30,7 @@ class ProductosModel extends Query{
     public function getProductos()
     {
         $sql = "SELECT p.*, m.id AS id_medida, m.nombre AS Medida, c.id AS id_categoria, c.nombre AS Categoria FROM productos p INNER JOIN medidas m ON p.id_medida = m.id
-        INNER JOIN categorias c ON p.id_categoria = c.id INNER JOIN proveedores prov ON p.id_proveedor = prov.id
-        WHERE p.estado = 1";
+        INNER JOIN categorias c ON p.id_categoria = c.id INNER JOIN proveedores prov ON p.id_proveedor = prov.id";
         $data = $this->selectAll($sql);
         return $data;
     }
@@ -47,17 +46,17 @@ class ProductosModel extends Query{
         $this->id_categoria = $id_categoria;
         $this->id_proveedor = $id_proveedor;
         
-        $vericar = "SELECT * FROM Productos WHERE codigo = '$this->codigo'";
+        $vericar = "SELECT * FROM productos WHERE codigo = '$this->codigo'";
             $existe = $this->select($vericar);
             if (empty($existe)) {
-            $sql = "INSERT INTO productos(codigo, descripcion, precio_compra, precio_venta, id_medida, id_categoria, id_proveedor ) VALUES (?,?,?,?,?,?,?)";
-            $datos = array($this->codigo, $this->nombre, $this->precio_compra, $this->precio_venta, $this->id_medida,$this->id_categoria,$this->id_proveedor);
-            $data = $this->save($sql, $datos);
-            if ($data == 1) {
-                $res = "ok";
-            }else{
-                $res = "error";
-            }
+                $sql = "INSERT INTO productos(codigo, descripcion, precio_compra, precio_venta, id_medida, id_categoria, id_proveedor ) VALUES (?,?,?,?,?,?,?)";
+                $datos = array($this->codigo, $this->nombre, $this->precio_compra, $this->precio_venta, $this->id_medida,$this->id_categoria,$this->id_proveedor);
+                $data = $this->save($sql, $datos);
+                if ($data == 1) {
+                    $res = "ok";
+                }else{
+                    $res = "error";
+                }
             }else{
             $res = "existe";
             }
