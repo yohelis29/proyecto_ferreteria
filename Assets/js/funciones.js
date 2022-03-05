@@ -1,4 +1,4 @@
-let tblUsuarios, tblClientes,tblCajas, tblCategorias, tblMedidas, tblProveedores;
+let tblUsuarios, tblClientes,tblCajas, tblCategorias, tblMedidas, tblProveedores, tblProductos;
 document.addEventListener("DOMContentLoaded", function () {
     tblUsuarios = $('#tblUsuarios').DataTable( {
         ajax: {
@@ -85,6 +85,23 @@ document.addEventListener("DOMContentLoaded", function () {
             {'data' : 'id'},
             {'data' : 'nombre'},
             {'data' : 'telefono'},
+            {'data' : 'estado'},
+            {'data' : 'acciones'}
+
+        ]
+    } );
+      // Tabla productos
+      tblProductos = $('#tblProductos').DataTable( {
+        ajax: {
+            url: base_url + "Productos/listar" ,
+            dataSrc: ''
+        },
+        columns: [ 
+            {'data' : 'id'},
+            {'data' : 'codigo'},
+            {'data' : 'descripcion'},
+            {'data' : 'precio_venta'},
+            {'data' : 'cantidad'},
             {'data' : 'estado'},
             {'data' : 'acciones'}
 
@@ -716,6 +733,188 @@ function btnReingresarCate(id) {
 }
 
 // fin Categorias
+// Funciones para registro de productos
+function frmProducto() {
+    document.getElementById("title").innerHTML="Registrar Producto";
+    document.getElementById("btnAccion").innerHTML="Registrar";
+    document.getElementById("frmProducto").reset();
+    document.getElementById("id").value = "";
+    $("#nuevo_producto").modal("show");
+}
+function registrarPro(e) {
+    e.preventDefault();
+    const codigo = document.getElementById("codigo");
+    const nombre = document.getElementById("nombre");
+    const precio_compra = document.getElementById("precio_compra");
+    const precio_venta = document.getElementById("precio_venta");
+    const id_medida = document.getElementById("medida");
+    const id_categoria = document.getElementById("categoria");
+    const id_proveedor = document.getElementById("proveedor");
+
+    if (codigo.value == "" || nombre.value == "" || precio_compra.value == "" || precio_venta.value == "" || precio_compra.value == "") {
+        Swal.fire({
+          
+            icon: 'error',
+            title: 'Todos los campos son obligatorios!',
+            showConfirmButton: false,
+            timer: 3000
+        })
+    }else{
+        const url = base_url + "Productos/registrar";
+        const frm = document.getElementById("frmProducto");
+        const http = new XMLHttpRequest();
+        http.open("POST", url, true);
+        http.send(new FormData(frm));
+        http.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                console.log(this.responseText);
+                const res = JSON.parse(this.responseText);
+                if (res == "si") {
+                    Swal.fire({
+                     
+                    icon: 'success',
+                    title: 'Producto registrado correctamente',
+                    showConfirmButton: false,
+                    timer: 3000
+                }) 
+                frm.reset();
+                $("#nuevo_producto").modal("hide");
+                tblProductos.ajax.reload();
+                }else if (res == "modificado") {
+                   Swal.fire({
+                        
+                   icon: 'success',
+                   title: 'Producto modificado correctamente',
+                   showConfirmButton: false,
+                   timer: 3000
+                   }) 
+                   $("#nuevo_producto").modal("hide");
+                   tblProductos.ajax.reload();
+                    
+                }else{
+                Swal.fire({
+                       
+                  icon: 'error',
+                  title: res,
+                  showConfirmButton: false,
+                  timer: 3000
+                  }) 
+                }
+            }
+        }
+    }
+
+
+}
+function btnEditarPro(id) {
+    document.getElementById("title").innerHTML="Editar Producto";
+    document.getElementById("btnAccion").innerHTML="Actualizar";
+    const url = base_url + "Productos/editar/"+id;
+        const http = new XMLHttpRequest();
+        http.open("GET", url, true);
+        http.send();
+        http.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                //console.log(this.responseText);
+                const res = JSON.parse(this.responseText);
+                document.getElementById("id").value = res.id;
+                document.getElementById("codigo").value = res.codigo;
+                document.getElementById("nombre").value = res.descripcion;
+                document.getElementById("precio_compra").value = res.precio_compra;
+                document.getElementById("precio_venta").value = res.precio_venta;
+                document.getElementById("medida").value = res.id_medida;
+                document.getElementById("categoria").value = res.id_categoria;
+                document.getElementById("proveedor").value = res.id_proveedor;
+                $("#nuevo_producto").modal("show");
+            }
+        }
+    
+}
+function btnEliminarPro(id) {
+    Swal.fire({
+        title: '¿Está seguro de desactivar?',
+        text: "¡El producto se desactivara!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí',
+        cancelButtonText: 'No',
+      }).then((result) => {
+        if (result.isConfirmed) {
+             const url = base_url + "Productos/eliminar/"+id;
+             const http = new XMLHttpRequest();
+             http.open("GET", url, true);
+             http.send();
+             http.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                const res = JSON.parse(this.responseText);
+                if (res == "ok") {
+                    Swal.fire(
+                        'Mensaje',
+                        'Producto desactivado con éxito',
+                        'success'
+                      )
+                      tblProductos.ajax.reload();
+                }else{ Swal.fire(
+                    'Mensaje',
+                    res,
+                    'error'
+                  )}
+            }
+        }
+          
+        }
+      })
+}
+function btnReingresarPro(id) {
+    Swal.fire({
+        title: 'Esta seguro de reingresar?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si!',
+        cancelButtonText: 'No'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const url = base_url + "Productos/reingresar/" + id;
+            const http = new XMLHttpRequest();
+            http.open("GET", url, true);
+            http.send();
+            http.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    const res = JSON.parse(this.responseText);
+                    if (this.readyState == 4 && this.status == 200) {
+                        const res = JSON.parse(this.responseText);
+                        if (res == "ok") {
+                            Swal.fire(
+                                'Mensaje',
+                                'Producto activado con éxito',
+                                'success'
+                              )
+                              tblProductos.ajax.reload();
+                        }else{ Swal.fire(
+                            'Mensaje',
+                            res,
+                            'error'
+                          )}
+                    }
+                }
+            }
+        }
+    })
+}
+function preview(e) {
+   // console.log(e.target.files);
+   const url = e.target.files[0];
+   const urlTmp = URL.createObjectURL(url);
+   document.getElementById("img-preview").src = urlTmp;
+   document.getElementById("icon-image").classList.add("d-none");
+   document.getElementById("icon-cerrar").innerHTML = ` 
+   <button class="btn btn-danger"><i class="fas fa-times"></i></button>
+   ${url['name']}`;
+}
 
 //--------------------------------------------------------------------------------------------------------------
 //Comienzo Medidas
