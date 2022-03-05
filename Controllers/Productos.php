@@ -21,6 +21,7 @@
         {
             $data = $this->model->getProductos();
             for ($i=0; $i <count($data); $i++) {
+                $data[$i]['imagen'] = '<img class="img-thumbnail" src="'. base_url. "Assets/img/". $data[$i]['foto'].'" width="100">';
                 if ($data[$i]['estado'] == 1) {
                     $data[$i]['estado'] = '<span class="badge bg-success">Activo</span>';
                     $data[$i]['acciones'] = '<div>
@@ -48,14 +49,22 @@
            $categoria = $_POST['categoria'];
            $proveedor = $_POST['proveedor'];
            $id = $_POST['id'];
-         
+           $img = $_FILES['imagen'];
+           $name = $img['name'];
+           $tmpname = $img['tmp_name'];
+           $destino ="Assets/img/".$name;
+           if (empty($name)) {
+              $name = "default.jpg";
+           }
+           
            if (empty($codigo) || empty($nombre) || empty($precio_compra) || empty($precio_venta)) {
                $msg = "Todos los campos son obligatorios";
            }else {
             if ($id=="") {
-               $data=  $this->model->registrarProducto($codigo,$nombre,$precio_compra,$precio_venta,$medida,$categoria,$proveedor);
+               $data=  $this->model->registrarProducto($codigo,$nombre,$precio_compra,$precio_venta,$medida,$categoria,$proveedor,$name);
                 if ($data == "ok") {
                    $msg = "si";
+                   move_uploaded_file($tmpname, $destino);
                 }else if($data == "existe"){
                    $msg = "El Producto ya existe";
                 }else {
@@ -63,14 +72,24 @@
                 }
                 
             }else {
-                $data=  $this->model->modificarProducto($codigo,$nombre,$precio_compra,$precio_venta,$medida,$categoria,$proveedor,$id);
-                if ($data == "modificado") {
-                   $msg = "modificado";
-                }else if($data=="existe") {
+                if ($_POST['foto_actual'] != $_POST['foto_delete']) {
+                    $imgDelete = $this->model->editarPro($id);
+                    if ($imgDelete['foto'] != 'default.jpg' || $imgDelete['foto'] != "") {
+                        if (file_exists($destino . $imgDelete['foto'])) {
+                            unlink($destino . $imgDelete['foto']);
+                        }
+                    }
+                    $data=  $this->model->modificarProducto($codigo,$nombre,$precio_compra,$precio_venta,$medida,$categoria,$proveedor,$name,$id);
+                    if ($data == "modificado") {
+                     move_uploaded_file($tmpname, $destino);
+                     $msg = "modificado";
+                    }else if($data=="existe") {
                     $msg ="Producto ya Existe";
-                }else{
+                     }else{
                     $msg ="Error al modificar el Producto"; 
+                    }
                 }
+                
             }
             
            }

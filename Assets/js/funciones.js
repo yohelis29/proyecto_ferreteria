@@ -98,6 +98,7 @@ document.addEventListener("DOMContentLoaded", function () {
         },
         columns: [ 
             {'data' : 'id'},
+            {'data' : 'imagen'},
             {'data' : 'codigo'},
             {'data' : 'descripcion'},
             {'data' : 'precio_venta'},
@@ -141,8 +142,7 @@ function registrarUser(e) {
         http.send(new FormData(frm));
         http.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-               // console.log(this.responseText);
-               const res = JSON.parse(this.responseText);
+             const res = JSON.parse(this.responseText);
                 if (res == "si") {
                     Swal.fire({
                      
@@ -271,7 +271,6 @@ function registrarCli(e) {
         http.send(new FormData(frm));
         http.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-                        // console.log(this.responseText);
                const res = JSON.parse(this.responseText);
                 if (res == "si") {
                     Swal.fire({
@@ -436,7 +435,6 @@ function registrarCaja(e) {
         http.send(new FormData(frm));
         http.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-                        // console.log(this.responseText);
                const res = JSON.parse(this.responseText);
                 if (res == "si") {
                     Swal.fire({
@@ -598,7 +596,6 @@ function registrarCate(e) {
         http.send(new FormData(frm));
         http.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-                        // console.log(this.responseText);
                const res = JSON.parse(this.responseText);
                 if (res == "si") {
                     Swal.fire({
@@ -740,6 +737,7 @@ function frmProducto() {
     document.getElementById("frmProducto").reset();
     document.getElementById("id").value = "";
     $("#nuevo_producto").modal("show");
+    deleteImg();
 }
 function registrarPro(e) {
     e.preventDefault();
@@ -767,7 +765,6 @@ function registrarPro(e) {
         http.send(new FormData(frm));
         http.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-                console.log(this.responseText);
                 const res = JSON.parse(this.responseText);
                 if (res == "si") {
                     Swal.fire({
@@ -825,6 +822,12 @@ function btnEditarPro(id) {
                 document.getElementById("medida").value = res.id_medida;
                 document.getElementById("categoria").value = res.id_categoria;
                 document.getElementById("proveedor").value = res.id_proveedor;
+                document.getElementById("img-preview").src = base_url + 'Assets/img/' + res.foto;
+                document.getElementById("icon-cerrar").innerHTML = ` 
+                <button class="btn btn-danger" onclick="deleteImg()"><i class="fas fa-times"></i></button>`;
+                document.getElementById("icon-image").classList.add("d-none");
+                document.getElementById("foto_actual").value = res.foto;
+                document.getElementById("foto_delete").value = res.foto;
                 $("#nuevo_producto").modal("show");
             }
         }
@@ -905,15 +908,22 @@ function btnReingresarPro(id) {
         }
     })
 }
+//funciones para las imagenes
 function preview(e) {
-   // console.log(e.target.files);
    const url = e.target.files[0];
    const urlTmp = URL.createObjectURL(url);
    document.getElementById("img-preview").src = urlTmp;
    document.getElementById("icon-image").classList.add("d-none");
    document.getElementById("icon-cerrar").innerHTML = ` 
-   <button class="btn btn-danger"><i class="fas fa-times"></i></button>
+   <button class="btn btn-danger" onclick="deleteImg()"><i class="fas fa-times"></i></button>
    ${url['name']}`;
+}
+function deleteImg() {
+    document.getElementById("icon-cerrar").innerHTML = '';
+    document.getElementById("icon-image").classList.remove("d-none");
+    document.getElementById("img-preview").src = '';
+    document.getElementById("imagen").value = '';
+    document.getElementById("foto_delete").value = '';
 }
 
 //--------------------------------------------------------------------------------------------------------------
@@ -950,7 +960,6 @@ function registrarMedida(e) {
         http.send(new FormData(frm));
         http.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-                        // console.log(this.responseText);
                const res = JSON.parse(this.responseText);
                 if (res == "si") {
                     Swal.fire({
@@ -1121,7 +1130,6 @@ function registrarProveedor(e) {
         http.send(new FormData(frm));
         http.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-                        // console.log(this.responseText);
                const res = JSON.parse(this.responseText);
                 if (res == "si") {
                     Swal.fire({

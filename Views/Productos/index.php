@@ -10,6 +10,7 @@
     <thead class="thead-dark">
         <tr>
             <th>Id</th>
+            <th>Foto</th>
             <th>Código</th>
             <th>Descripción</th>
             <th>Precio</th>   
@@ -32,16 +33,20 @@
             </div>
             <div class="modal-body">
                 <form method="post" id="frmProducto">
-                    <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-6">
+                        <div class="form-group">
                         <label for="codigo">Codigo de barras</label>
                         <input type="hidden" id="id" name="id">
                         <input id="codigo" class="form-control" type="text" name="codigo" placeholder="Código de barras">
                     </div>
-                    <div class="form-group">
+                        </div>
+                        <div class="col-md-6">
+                        <div class="form-group">
                         <label for="nombre">Descripción</label>
                         <input id="nombre" class="form-control" type="text" name="nombre" placeholder="Nombre del producto">
                     </div>
-                    <div class="row">
+                        </div>
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="precio_compra">Precio compra</label>
@@ -93,6 +98,8 @@
                                    <label for="imagen" id="icon-image" class="btn btn-primary"><i class="fas fa-image"></i></label>
                                    <span id="icon-cerrar"></span>
                                    <input id="imagen" class="d-none" type="file" name="imagen" onchange="preview(event)">
+                                   <input type="hidden" id="foto_actual" name="foto_actual">
+                                   <input type="hidden" id="foto_delete" name="foto_delete">
                                    <img class="img-thumbnail" id="img-preview">
                                    
                                 </div>
