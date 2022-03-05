@@ -115,12 +115,16 @@
         }
         public function eliminar(int $id)
         {
-            $data = $this->model->eliminarPro($id);
-    
+            $data = $this->model->accionPro(0,$id);
+            if ($data == 1) {
                 $msg = "ok";
-            
+            }else {
+                $msg = "ok";
+            }
             echo json_encode($msg, JSON_UNESCAPED_UNICODE);
             die();
+            
+            
         }
         public function salir()
         {

@@ -74,8 +74,8 @@ class ProductosModel extends Query{
         $this->id_proveedor = $id_proveedor;
         $this->id = $id;
 
-        $vericar = "SELECT * FROM Productos WHERE Producto = '$this->Producto'";
-        $comprobar = "SELECT * FROM Productos WHERE id = '$this->id' and Producto = '$this->Producto'";
+        $vericar = "SELECT * FROM productos WHERE id = '$this->id'";
+        $comprobar = "SELECT * FROM productos WHERE id = '$this->id' OR descripcion = '$this->nombre'";
         $existe = $this->select($vericar);
         $exist = $this->select($comprobar);
         if (empty($existe) ||  !empty($exist)) {
@@ -101,10 +101,13 @@ class ProductosModel extends Query{
         return $data;
     }
 
-    public function eliminarPro(int $id)
+    public function accionPro(int $estado, int $id)
     {
-        $sql = "DELETE  FROM Productos WHERE id = $id";
-        $data = $this->select($sql);
+        $this-> id = $id;
+        $this-> estado = $estado;
+        $sql = "UPDATE productos SET estado = ? WHERE id = ?";
+        $datos = array($this->estado, $this->id);
+        $data = $this->save($sql,$datos);
         return $data;
     }
 
