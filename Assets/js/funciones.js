@@ -838,7 +838,7 @@ function btnEditarPro(id) {
 }
 function btnEliminarPro(id) {
     Swal.fire({
-        title: '¿Está seguro de eliminar el usuario?',
+        title: '¿Está seguro de eliminar el Producto?',
         text: "¡El producto se eliminara de forma permanente!",
         icon: 'warning',
         showCancelButton: true,
