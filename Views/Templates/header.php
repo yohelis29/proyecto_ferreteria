@@ -61,14 +61,19 @@
                                 Medidas          
                             </a>
 
+                            <a class="nav-link" href="<?php echo base_url;?>Proveedores">
+                                <div class="sb-nav-link-icon"><i class="fa fa-truck text-primary" ></i></div>
+                                Proveedores            
+                            </a>
+
                             <a class="nav-link" href="<?php echo base_url;?>Productos">
                                 <div class="sb-nav-link-icon"><i class="fab fa-product-hunt text-primary" ></i></div>
                                 Productos            
                             </a>
                             
-                            <a class="nav-link" href="<?php echo base_url;?>Proveedores">
-                                <div class="sb-nav-link-icon"><i class="fa fa-truck text-primary" ></i></div>
-                                Proveedores            
+                            <a class="nav-link" href="<?php echo base_url;?>Compras">
+                                <div class="sb-nav-link-icon"><i class="fa fa-shopping-cart text-primary" ></i></div>
+                                Compras            
                             </a>
 
                           

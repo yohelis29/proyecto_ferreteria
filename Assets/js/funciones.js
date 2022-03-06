@@ -827,7 +827,6 @@ function btnEditarPro(id) {
                 <button class="btn btn-danger" onclick="deleteImg()"><i class="fas fa-times"></i></button>`;
                 document.getElementById("icon-image").classList.add("d-none");
                 document.getElementById("foto_actual").value = res.foto;
-                document.getElementById("foto_delete").value = res.foto;
                 $("#nuevo_producto").modal("show");
             }
         }
@@ -923,7 +922,7 @@ function deleteImg() {
     document.getElementById("icon-image").classList.remove("d-none");
     document.getElementById("img-preview").src = '';
     document.getElementById("imagen").value = '';
-    document.getElementById("foto_delete").value = '';
+    document.getElementById("foto_actual").value = '';
 }
 
 //--------------------------------------------------------------------------------------------------------------
@@ -1265,5 +1264,57 @@ function btnReingresarProv(id) {
 }
 
 // fin Proveedores
+
+//--------------------------------------------------------------------------------------------------------------
+//Comienzo Compras
+
+function buscarCodigo(e){
+    e.preventDefault();
+
+    if(e.which==13){
+        const cod = document.getElementById("codigo").value;
+        const url = base_url + "Compras/buscarCodigo/" + cod;
+        const http = new XMLHttpRequest();
+        http.open("GET", url, true);
+        http.send();
+        http.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+               const res = JSON.parse(this.responseText);
+
+               if(res){
+
+                document.getElementById("nombre").value = res.descripcion;
+                document.getElementById("precio").value = res.precio_compra;
+                document.getElementById("id").value = res.id;
+                document.getElementById("cantidad").focus();
+               }else{
+
+                Swal.fire({
+          
+                    icon: 'error',
+                    title:'¡Producto no existe!',
+                    showConfirmButton: false,
+                    timer: 2000
+                })
+                document.getElementById("codigo").value = '';
+                document.getElementById("codigo").focus();
+
+
+               }
+
+            }
+        }
+    }
+
+
+
+}
+
+function calcularPrecio(e){
+    e.preventDefault();
+    const cant = document.getElementById("cantidad").value;
+    const precio= document.getElementById("precio").value;
+    document.getElementById("sub_total").value= precio*cant;
+}
 
 
