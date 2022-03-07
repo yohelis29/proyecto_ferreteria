@@ -1367,7 +1367,19 @@ http.onreadystatechange = function () {
 }
 
 function deleteDetalle(id) {
-    const url = base_url + "Compras/delete/"+id;
+  
+  
+    Swal.fire({
+        title: '¿Está seguro de eliminar?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí',
+        cancelButtonText: 'No',
+      }).then((result) => {
+        if (result.isConfirmed) {
+            const url = base_url + "Compras/delete/"+id;
 const http = new XMLHttpRequest();
 http.open("GET", url, true);
 http.send();
@@ -1396,6 +1408,10 @@ http.onreadystatechange = function () {
     }
 }
 }
+
+})
+}
+
 
 
 
