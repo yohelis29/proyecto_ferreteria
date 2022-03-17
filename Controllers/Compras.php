@@ -60,7 +60,7 @@
             echo json_encode($msg);
             die();
         }
-        
+        //Yese
         public function registrarCompra()
         {
             $id_usuario = $_SESSION['id_usuario'];
