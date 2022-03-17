@@ -60,6 +60,29 @@
             echo json_encode($msg);
             die();
         }
+        
+        public function registrarCompra()
+        {
+            $id_usuario = $_SESSION['id_usuario'];
+            $total = $this->model->calcularCompra($id_usuario);
+            $data = $this->model->registraCompra($total['total']);   
+            if ($data == 'ok'){
+                $detalle = $this->model->getDetalle($id_usuario);
+                $id_compra = $this->model->id_compra();
+                foreach($detalle as $row){
+                    $cantidad=$row['cantidad'];
+                    $precio=$row['precio'];
+                    $id_pro=$row['id_producto'];
+                    $sub_total=$cantidad * $precio;
+                    $this->model->registrarDetalleCompra($id_compra['id'],$id_pro, $cantidad,$precio,$sub_total);
+                }
+                $msg = 'ok';
+            }else{
+                $msg = 'Error al realizar la compra';
+            } 
+            echo json_encode($msg);
+            die();
+        }
 
 
 
