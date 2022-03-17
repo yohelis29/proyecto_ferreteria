@@ -1326,6 +1326,11 @@ function calcularPrecio(e){
             if (this.readyState == 4 && this.status == 200) {
                const res = JSON.parse(this.responseText);
                if (res == 'ok'){
+                   alert('Ingresado');
+                   frm.reset();
+                   cargarDetalle();
+               }else if(res == 'modificado'){
+                   alert('Producto actualizado');
                    frm.reset();
                    cargarDetalle();
                }
