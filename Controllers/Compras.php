@@ -22,19 +22,31 @@
         }
 
         public function ingresar(){
-            $id = $_POST['id'];
+             $id = $_POST['id'];
             $datos = $this->model->getProductos($id);
             $id_producto = $datos['id'];
             $id_usuario = $_SESSION['id_usuario'];
             $precio = $datos['precio_compra'];
             $cantidad = $_POST['cantidad'];
-            $sub_total = $precio*$cantidad;
-           $data = $this->model->registrarDetalle($id_producto, $id_usuario, $precio, $cantidad, $sub_total);
-           if ($data == "ok"){
-               $msg = "ok";
+            $comprobar=$this->model->consultarDetalle($id_producto, $id_usuario);
+            if (empty($comprobar)){
+                $sub_total = $precio * $cantidad;
+                $data = $this->model->registrarDetalle($id_producto, $id_usuario, $precio, $cantidad, $sub_total);
+                if ($data == "ok"){
+                    $msg = "ok";
+               }else{
+                    $msg = "Error al Ingresar el Producto";
+               }
            }else{
-               $msg = "Error al Ingresar el Producto";
-           }
+               $total_cantidad = $comprobar['cantidad'] + $cantidad;
+               $sub_total= $total_cantidad * $precio;
+               $data = $this->model->actualizarDetalle($precio, $total_cantidad, $sub_total,$id_producto, $id_usuario);
+               if ($data == "modificado"){
+                  $msg = "modificado";
+               }else{
+                   $msg = "Error al modificar el Producto";
+                }
+            }
            echo json_encode($msg, JSON_UNESCAPED_UNICODE);
            die();
 
@@ -84,9 +96,6 @@
             die();
         }
 
-
-
-    }
-        
+    }        
         
 ?>
