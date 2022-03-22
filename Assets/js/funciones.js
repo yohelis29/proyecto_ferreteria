@@ -1326,11 +1326,23 @@ function calcularPrecio(e){
             if (this.readyState == 4 && this.status == 200) {
                const res = JSON.parse(this.responseText);
                if (res == 'ok'){
-                   alert('Ingresado');
+                Swal.fire({
+          
+                    icon: 'success',
+                    title:'¡Producto Ingresado!',
+                    showConfirmButton: false,
+                    timer: 2000
+                })
                    frm.reset();
                    cargarDetalle();
                }else if(res == 'modificado'){
-                   alert('Producto actualizado');
+                Swal.fire({
+          
+                    icon: 'success',
+                    title:'¡Producto actualizado!',
+                    showConfirmButton: false,
+                    timer: 2000
+                })
                    frm.reset();
                    cargarDetalle();
                }
@@ -1424,7 +1436,7 @@ function generarCompra(){
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Si!',
+        confirmButtonText: 'Si',
         cancelButtonText: 'No'
     }).then((result) => {
         if (result.isConfirmed) {
@@ -1434,14 +1446,22 @@ function generarCompra(){
             http.send();
             http.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
-                    console.log(this.responseText)
+                   
                     const res = JSON.parse(this.responseText);
-                    if (res == "ok") {
+                    if (res.msg == "ok") {
                         Swal.fire(
                             'Mensaje!',
                             'Compra generada',
                             'success'
                         )
+
+                        const ruta = base_url + 'Compras/generarPdf/' + res.id_compra
+
+                        window.open(ruta);
+                        setTimeout(() =>{
+                            window.location.reload();
+
+                        }, 300);
                     }else{ Swal.fire(
                         'Mensaje!',
                         res,

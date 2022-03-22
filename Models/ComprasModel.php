@@ -112,6 +112,25 @@ class ComprasModel extends Query{
     return $res;
   }
 
+  public function getEmpresa(){
+      $sql = "SELECT * FROM configuracion";
+      $data = $this->select($sql);
+      return $data;
+
+  }
+
+  public function vaciarDetalle(int $id_usuario){
+    $sql = "DELETE FROM detalle WHERE id_usuario = ?";
+    $datos = array($id_usuario);
+    $data = $this->save($sql, $datos);
+    if ($data == 1) {
+        $res = "ok";
+    }else{
+        $res = "error";
+    }
+    return $res;
+  }
+
 }
 
 ?>
