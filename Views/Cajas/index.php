@@ -1,6 +1,6 @@
 <?php include "Views/Templates/header.php"; ?>
-<ol class="breadcrumb mb-4">
-    <li class="breadcrumb-item active">Cajas</li>
+<ol class="breadcrumb mb-4 bg-primary">
+    <li class="breadcrumb-item active text-white"><h4>Cajas</h4></li>
 </ol>
 <button class="btn btn-primary mb-2" type="button" onclick="frmCaja();"><i class="fas fa-plus"></i></button>
 <table class="table table-light" id="tblCajas">

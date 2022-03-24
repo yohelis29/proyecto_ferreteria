@@ -108,6 +108,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
         ]
     } );
+    //Fin productos
+    t_historial_c= $('#t_historial_c').DataTable( {
+        ajax: {
+            url: base_url + "Compras/listar_historial" ,
+            dataSrc: ''
+        },
+        columns: [ 
+            {'data' : 'id'},
+            {'data' : 'total'},
+            {'data' : 'fecha'},
+            {'data' : 'acciones'}
+
+        ]
+    } );
 })
 
 function frmUsuario() {

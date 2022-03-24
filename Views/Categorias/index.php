@@ -2,8 +2,8 @@
     //print_r($_SESSION)
     include "Views/Templates/header.php";
 ?>
-<ol class="breadcrumb mb-4">
-    <li class="breadcrumb-item active">Categorías</li>
+<ol class="breadcrumb mb-4 bg-primary">
+    <li class="breadcrumb-item active text-white"><h4>Categorías</h4></li>
 </ol>
 <button class="btn btn-primary mb-2" type="button" onclick="frmCategoria();"> <i class= "fas fa-plus"></i></button>
 <table class="table table-light" id="tblCategorias">

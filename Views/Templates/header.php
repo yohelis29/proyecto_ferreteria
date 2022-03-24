@@ -70,11 +70,17 @@
                                 <div class="sb-nav-link-icon"><i class="fab fa-product-hunt text-primary" ></i></div>
                                 Productos            
                             </a>
-                            
-                            <a class="nav-link" href="<?php echo base_url;?>Compras">
-                                <div class="sb-nav-link-icon"><i class="fa fa-shopping-cart text-primary" ></i></div>
-                                Compras            
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCompras" aria-expanded="false" aria-controls="collapseCompras">
+                                <div class="sb-nav-link-icon"><i class="fa fa-shopping-cart text-primary" ></i></i></div>
+                                Entradas
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down text-primary"></i></div>
                             </a>
+                            <div class="collapse" id="collapseCompras" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="<?php echo base_url;?>Compras"><i class="fas fa-shopping-cart text-primary mr-2"></i>Nueva compra</a>
+                                    <a class="nav-link" href="<?php echo base_url; ?>Compras/historial"><i class="fas fa-list text-primary mr-2"></i>Historial compras</a>
+                                </nav>
+                            </div>
 
                           
 

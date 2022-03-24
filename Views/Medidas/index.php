@@ -2,8 +2,8 @@
     //print_r($_SESSION)
     include "Views/Templates/header.php";
 ?>
-<ol class="breadcrumb mb-4">
-    <li class="breadcrumb-item active">Medidas</li>
+<ol class="breadcrumb mb-4 bg-primary">
+    <li class="breadcrumb-item active text-white"><h4>Medidas</h4></li>
 </ol>
 <button class="btn btn-primary mb-2" type="button" onclick="frmMedida();"> <i class= "fas fa-plus"></i></button>
 <table class="table table-light" id="tblMedidas">
