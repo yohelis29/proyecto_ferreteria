@@ -87,6 +87,9 @@
                     $id_pro=$row['id_producto'];
                     $sub_total=$cantidad * $precio;
                     $this->model->registrarDetalleCompra($id_compra['id'],$id_pro, $cantidad,$precio,$sub_total);
+                    $stock_actual = $this->model->getProductos($id_pro);
+                    $stock = $stock_actual["cantidad"] + $cantidad;
+                    $this->model->actualizarStock($stock, $id_pro);
                 }
                 $vaciar =$this->model->vaciarDetalle($id_usuario);
                 if($vaciar=='ok'){
