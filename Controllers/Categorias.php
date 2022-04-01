@@ -11,7 +11,13 @@
         public function index()
         {
            
+            $id_user = $_SESSION['id_usuario'];
+            $verificar=$this->model->verificarPermiso($id_user, 'categorias');
+          if (!empty($verificar) || $id_user == 1) {
             $this->views->getView($this, "index");
+          } else {
+             header('Location: '. base_url . 'Errors/permisos');
+          }
         }
         public function listar()
         {

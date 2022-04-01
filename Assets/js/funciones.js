@@ -312,8 +312,8 @@ function registrarCli(e) {
                 }else{
                     Swal.fire({
                        
-                        icon: 'error',
-                        title: res,
+                        icon: res.icono,
+                        title: res.msg,
                         showConfirmButton: false,
                         timer: 3000
                     }) 
@@ -1504,7 +1504,7 @@ function modificarEmpresa() {
          const res = JSON.parse(this.responseText);
           
         if (res == 'ok') {
-            alert('Modificado');
+            alertas('Modificado', 'success');
         } 
 
         }
@@ -1514,8 +1514,40 @@ function modificarEmpresa() {
 }
 
 
+//-------------------------------------------------------------------------------------
+//Permisos
 
+function registrarPermisos(e){
+    e.preventDefault();
+    const url = base_url + "Usuarios/registrarPermisos";
+    const frm = document.getElementById('formulario');
+    const http = new XMLHttpRequest();
+    http.open("POST", url, true);
+    http.send(new FormData(frm));
+    http.onreadystatechange = function() {
+        if(this.readyState == 4 && this.status == 200){
+            const res = JSON.parse(this.responseText);
+            if(res != ''){
+            
+                alertas(res.msg , res.icono);
+            }
+            else{
+                alertas('Error no identificado', 'error'); 
+            }
+        }
+    }
+}
 
+function alertas(mensaje, icono){
+    Swal.fire({
+                
+        icon: icono,
+        title: mensaje,
+        showConfirmButton: false,
+        timer: 3000
+        }) 
+
+}
 
 
 

@@ -27,9 +27,9 @@
         if (method_exists($controller, $metodo)) {
             $controller->$metodo($parametro);
         }else{
-            echo "No existe el metodo";
+           header('Location: ' . base_url . 'Errors' );
         }
     }else {
-        echo "No existe el controlador";
+        header('Location: ' . base_url . 'Errors' );
     }
 ?>

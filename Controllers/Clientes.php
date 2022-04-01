@@ -11,7 +11,13 @@
         public function index()
         {
            
+            $id_user = $_SESSION['id_usuario'];
+            $verificar=$this->model->verificarPermiso($id_user, 'clientes');
+          if (!empty($verificar) || $id_user == 1) {
             $this->views->getView($this, "index");
+          } else {
+             header('Location: '. base_url . 'Errors/permisos');
+          }
         }
         public function listar()
         {
@@ -37,7 +43,11 @@
 
         public function registrar()
         {
-           $dni = $_POST['dni'];
+            $id_user = $_SESSION['id_usuario'];
+            $verificar=$this->model->verificarPermiso($id_user, 'registrar_cliente');
+          if (!empty($verificar) || $id_user == 1) {
+           
+            $dni = $_POST['dni'];
            $nombre = $_POST['nombre'];
            $telefono = $_POST['telefono'];
            $direccion = $_POST['direccion'];
@@ -73,7 +83,13 @@
            }
         
         
-           echo json_encode($msg, JSON_UNESCAPED_UNICODE);
+          
+
+          } else {
+            $msg = array('msg' => ' No tienes Permisos para registrar clientes', 'icono' => 'warning' );
+          }
+          
+ echo json_encode($msg, JSON_UNESCAPED_UNICODE);
            die();
         }
         public function editar(int $id)
