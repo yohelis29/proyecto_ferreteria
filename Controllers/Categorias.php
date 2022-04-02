@@ -11,13 +11,15 @@
         public function index()
         {
            
-            $id_user = $_SESSION['id_usuario'];
-            $verificar=$this->model->verificarPermiso($id_user, 'categorias');
-          if (!empty($verificar) || $id_user == 1) {
+
+          $id_user = $_SESSION['id_usuario'];
+          $verificar=$this->model->verificarPermiso($id_user, 'Ver_Categorias' , 'Crear_Categoria');
+        if (!empty($verificar) ) {
             $this->views->getView($this, "index");
-          } else {
-             header('Location: '. base_url . 'Errors/permisos');
-          }
+        } else {
+           header('Location: '. base_url . 'Errors/permisos');
+        }
+        
         }
         public function listar()
         {
@@ -44,6 +46,8 @@
         public function registrar()
         {
            
+       
+
            $nombre = $_POST['nombre'];
            $id = $_POST['id'];
          
@@ -52,6 +56,10 @@
                $msg = "Todos los campos son obligatorios";
            }else {
             if ($id=="") {
+
+                $id_user = $_SESSION['id_usuario'];
+                $verificar=$this->model->verificarPermiso($id_user, 'Crear_Categoria','Crear_Categoria');
+              if (!empty($verificar) ) {
                 
                 $data=  $this->model->registrarCategoria($nombre);
                 if ($data == "ok") {
@@ -61,9 +69,15 @@
                 }else {
                     $msg ="Error al registrar la Categoría";
                 }
-                
+            } else {
+                $msg = array('msg' => ' No tienes Permisos para registrar categorías', 'icono' => 'warning' );
+              }    
                 
             }else {
+                $id_user = $_SESSION['id_usuario'];
+                $verificar=$this->model->verificarPermiso($id_user, 'Crear_Categoria','Crear_Categoria');
+              if (!empty($verificar) ) {
+
                 $data=  $this->model->modificarCate($nombre,$id);
                 if ($data == "modificado") {
                    $msg = "modificado";
@@ -72,25 +86,39 @@
                 }else{
                     $msg ="Error al modificar la Categoría"; 
                 }
+            } else {
+                $msg = array('msg' => ' No tienes Permisos para editar categorías', 'icono' => 'warning' );
+              }    
+                
             }
             
            }
         
-        
+      
            echo json_encode($msg, JSON_UNESCAPED_UNICODE);
            die();
+
+        
         }
 
 
         public function editar(int $id)
         {
+         
+
             $data = $this->model->editarCate($id);
+        
             echo json_encode($data, JSON_UNESCAPED_UNICODE);
             die();
+
         }
 
         public function eliminar(int $id)
         {
+            $id_user = $_SESSION['id_usuario'];
+            $verificar=$this->model->verificarPermiso($id_user, 'Crear_Categoria','Crear_Categoria');
+          if (!empty($verificar) ) {
+
             $data = $this->model->accionCate(0, $id);
             if ($data == 1) {
                 $msg ="ok";
@@ -99,6 +127,9 @@
                 $msg ="Error al desactivar";
     
             }
+        } else {
+            $msg = array('msg' => ' No tienes Permisos para Desactivar Categorías', 'icono' => 'warning' );
+          }
             echo json_encode($msg, JSON_UNESCAPED_UNICODE);
             die();
         }
@@ -106,6 +137,10 @@
 
         public function reingresar(int $id)
         {
+            $id_user = $_SESSION['id_usuario'];
+            $verificar=$this->model->verificarPermiso($id_user, 'Crear_Categoria','Crear_Categoria');
+          if (!empty($verificar) ) {
+
             $data = $this->model->accionCate(1, $id);
             if ($data == 1) {
                 $msg ="ok";
@@ -114,6 +149,10 @@
                 $msg = "error al reingresar";
     
             }
+
+        } else {
+            $msg = array('msg' => ' No tienes Permisos para Reingresar Categorías', 'icono' => 'warning' );
+          }
             echo json_encode($msg, JSON_UNESCAPED_UNICODE);
             die();
         }

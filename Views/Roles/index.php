@@ -4,17 +4,14 @@
 ?>
 <ol class="breadcrumb mb-4 bg-primary">
     <li class="breadcrumb-item active text-white">
-        <h4>Usuarios</h4>
+        <h4>Roles</h4>
     </li>
 </ol>
-<button class="btn btn-primary mb-2" type="button" onclick="frmUsuario();"> <i class="fas fa-plus"></i></button>
-<table class="table table-light" id="tblUsuarios">
+<button class="btn btn-primary mb-2" type="button" onclick="frmRoles();"> <i class="fas fa-plus"></i></button>
+<table class="table table-light" id="tblRoles">
     <thead class="thead-dark">
         <tr>
             <th>Id</th>
-            <th>Usuario</th>
-            <th>Nombre</th>
-            <th>Caja</th>
             <th>Rol</th>
             <th>Estado</th>
             <th></th>
@@ -60,8 +57,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row" >
-                    <div class="col-6">
                     <div class="form-group">
                         <label for="caja">Caja</label>
                         <select id="caja" class="form-control" name="caja">
@@ -69,18 +64,6 @@
                             <option value="<?php echo $row['id']; ?>"><?php echo $row['caja']; ?></option>
                             <?php } ?>
                         </select>
-                    </div>
-                    </div>
-                    <div class="col-6">
-                    <div class="form-group">
-                        <label for="rol">Rol</label>
-                        <select id="rol" class="form-control" name="rol">
-                            <?php foreach ($data['roles'] as $row) { ?>
-                            <option value="<?php echo $row['id']; ?>"><?php echo $row['nombre']; ?></option>
-                            <?php } ?>
-                        </select>
-                    </div>
-                    </div>
                     </div>
                     <button class="btn btn-primary mb-2" type="button" onclick="registrarUser(event);"
                         id="btnAccion">Registrar</button>

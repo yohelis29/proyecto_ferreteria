@@ -11,13 +11,17 @@
         public function index()
         {
            
+
             $id_user = $_SESSION['id_usuario'];
-            $verificar=$this->model->verificarPermiso($id_user, 'clientes');
-          if (!empty($verificar) || $id_user == 1) {
+            $verificar=$this->model->verificarPermiso($id_user, 'Ver_Clientes' , 'Crear_Cliente');
+          if (!empty($verificar) ) {
+         
             $this->views->getView($this, "index");
           } else {
              header('Location: '. base_url . 'Errors/permisos');
           }
+          
+          
         }
         public function listar()
         {
@@ -41,11 +45,12 @@
             die();
         }
 
+
+   
+
         public function registrar()
         {
-            $id_user = $_SESSION['id_usuario'];
-            $verificar=$this->model->verificarPermiso($id_user, 'registrar_cliente');
-          if (!empty($verificar) || $id_user == 1) {
+          
            
             $dni = $_POST['dni'];
            $nombre = $_POST['nombre'];
@@ -57,8 +62,11 @@
            if (empty($dni) || empty($nombre) || empty($telefono)  || empty($direccion)) {
                $msg = "Todos los campos son obligatorios";
            }else {
+        
             if ($id=="") {
-                
+                         $id_user = $_SESSION['id_usuario'];
+            $verificar=$this->model->verificarPermiso($id_user, 'Crear_Cliente','Crear_Cliente');
+          if (!empty($verificar) ) {
                 $data=  $this->model->registrarCliente($dni,$nombre,$telefono,$direccion);
                 if ($data == "ok") {
                    $msg = "si";
@@ -67,9 +75,16 @@
                 }else {
                     $msg ="Error al registrar el Cliente";
                 }
-                
+            } else {
+                $msg = array('msg' => ' No tienes Permisos para registrar clientes', 'icono' => 'warning' );
+              }  
                 
             }else {
+
+                $id_user = $_SESSION['id_usuario'];
+                $verificar=$this->model->verificarPermiso($id_user, 'Crear_Cliente','Crear_Cliente');
+              if (!empty($verificar) ) {
+
                 $data=  $this->model->modificarCliente($dni,$nombre,$telefono,$direccion, $id);
                 if ($data == "modificado") {
                    $msg = "modificado";
@@ -78,6 +93,10 @@
                 }else{
                     $msg ="Error al modificar el Cliente"; 
                 }
+            } else {
+            $msg = array('msg' => ' No tienes Permisos para Editar clientes', 'icono' => 'warning' );
+          }
+
             }
             
            }
@@ -85,21 +104,29 @@
         
           
 
-          } else {
-            $msg = array('msg' => ' No tienes Permisos para registrar clientes', 'icono' => 'warning' );
-          }
+         
           
  echo json_encode($msg, JSON_UNESCAPED_UNICODE);
            die();
         }
+
+
         public function editar(int $id)
         {
+
+          
+
             $data = $this->model->editarCli($id);
+
+       
             echo json_encode($data, JSON_UNESCAPED_UNICODE);
             die();
         }
         public function eliminar(int $id)
         {
+            $id_user = $_SESSION['id_usuario'];
+            $verificar=$this->model->verificarPermiso($id_user, 'Crear_Cliente','Crear_Cliente');
+          if (!empty($verificar) ) {
             $data = $this->model->accionCli(0, $id);
             if ($data == 1) {
                 $msg ="ok";
@@ -108,11 +135,19 @@
                 $msg ="Error al desactivar";
     
             }
+
+        } else {
+            $msg = array('msg' => ' No tienes Permisos para Desactivar clientes', 'icono' => 'warning' );
+          }
             echo json_encode($msg, JSON_UNESCAPED_UNICODE);
             die();
         }
         public function reingresar(int $id)
         {
+            $id_user = $_SESSION['id_usuario'];
+            $verificar=$this->model->verificarPermiso($id_user, 'Crear_Cliente','Crear_Cliente');
+          if (!empty($verificar) ) {
+
             $data = $this->model->accionCli(1, $id);
             if ($data == 1) {
                 $msg ="ok";
@@ -121,6 +156,10 @@
                 $msg = "error al reingresar";
     
             }
+
+        } else {
+            $msg = array('msg' => ' No tienes Permisos para Reingresar clientes', 'icono' => 'warning' );
+          }
             echo json_encode($msg, JSON_UNESCAPED_UNICODE);
             die();
         }

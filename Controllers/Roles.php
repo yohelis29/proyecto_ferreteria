@@ -1,5 +1,5 @@
 <?php
-    class Usuarios extends Controller{
+    class Roles extends Controller{
         public function __construct() {
             session_start();
            
@@ -8,17 +8,11 @@
 
         public function index()
         {
-
-
+      
             $id_user = $_SESSION['id_usuario'];
-            $verificar=$this->model->verificarPermiso($id_user, 'Usuarios');
+            $verificar=$this->model->verificarPermiso($id_user, 'Roles');
           if (!empty($verificar) ) {
-            if (empty($_SESSION['activo'])) {
-                header("location: " . base_url);
-            }
-            $data['cajas']=$this->model->getCajas();
-            $data['roles']=$this->model->getRoles();
-            //print_r($this->model->getUsuario());
+            $data['permisos']=$this->model->getPermisos();
             $this->views->getView($this, "index", $data);
           } else {
              header('Location: '. base_url . 'Errors/permisos');
@@ -26,31 +20,29 @@
           
 
 
-
-            
         }
         public function listar()
         {
-            $data = $this->model->getUsuarios();
+            $data = $this->model->getRoles();
             for ($i=0; $i <count($data); $i++) {
               
                 if ($data[$i]['estado'] == 1) {
                    $data[$i]['estado'] = '<span class="badge bg-success">Activo</span>';
-
-                   if($data[$i]['rol'] == 'Administrador'){
-                    $data[$i]['rol'] = '<span class="badge bg-primary">Administrador</span>';
-                   }
-                
+                  if($data[$i]['id'] ==1){
+                      $data[$i]['acciones'] = '<div>
+                      <span class="badge bg-primary">Administrador</span>
+                      <div/>';
+                  }else{
 
                 
                 $data[$i]['acciones'] = '<div>
-            
-                <button class="btn btn-primary" type="button" onclick="btnEditarUser(' . $data[$i]['id'] . ');"><i class="fas fa-edit"></i></button>
-                <button class="btn btn-danger" type="button" onclick="btnEliminarUser(' . $data[$i]['id'] . ');"><i class="fas fa-trash-alt"></i></button>
+                <a class="btn btn-dark" href="'.base_url.'Roles/permisos/'. $data[$i]['id'] .'"><i class="fas fa-key"></i></a>
+                <button class="btn btn-primary" type="button" onclick="btnEditarRol(' . $data[$i]['id'] . ');"><i class="fas fa-edit"></i></button>
+                <button class="btn btn-danger" type="button" onclick="btnEliminarRol(' . $data[$i]['id'] . ');"><i class="fas fa-trash-alt"></i></button>
                 <div/>';
                   
 
-                  
+                  }
                 }else {
                     $data[$i]['estado'] = '<span class="badge bg-danger">Inactivo</span>';
                 }
@@ -59,6 +51,8 @@
             echo json_encode($data, JSON_UNESCAPED_UNICODE);
             die();
         }
+
+         
 
         public function validar()
         {
@@ -94,7 +88,6 @@
            $confirmar = $_POST['confirmar'];
            $caja = $_POST['caja'];
            $id = $_POST['id'];
-           $rol = $_POST['rol'];
            //Encriptar contraseña
            $hash = hash("SHA256", $clave);
            if (empty($usuario) || empty($nombre) || empty($caja)) {
@@ -107,7 +100,7 @@
 
                     $msg = "Ingrese contraseña"; 
                 }else{
-                    $data=  $this->model->registrarUsuario($usuario,$nombre,$hash,$caja,$rol);
+                    $data=  $this->model->registrarUsuario($usuario,$nombre,$hash,$caja);
                 if ($data == "ok") {
                    $msg = "si";
                 }else if($data == "existe"){
@@ -118,7 +111,7 @@
                 }
                 
             }else {
-                $data=  $this->model->modificarUsuario($usuario,$nombre,$caja, $rol,$id );
+                $data=  $this->model->modificarUsuario($usuario,$nombre,$caja, $id);
                 if ($data == "modificado") {
                    $msg = "modificado";
                 }else if($data=="existe") {
@@ -150,7 +143,49 @@
             die();
         }
 
-  
+        public function permisos($id)
+        {
+            if (empty($_SESSION['activo'])) {
+                header("location: " . base_url);
+            }
+            $data['datos'] = $this->model->getPermisos();
+            $permisos = $this->model->getDetallesPermisos($id);
+            $data['asignados'] = array();
+            foreach($permisos as $permiso){
+                $data['asignados'][$permiso['id_permiso']] = true;
+
+            }
+            $data['id_rol'] = $id;
+            $this->views->getView($this, "permisos", $data);
+        }
+
+        public function registrarPermisos(){
+
+           $msg = '';
+            $id_rol = $_POST['id_rol'];
+            $eliminar = $this->model->eliminarPermisos($id_rol);
+           if ($eliminar == 'ok') {
+            foreach ($_POST['permisos'] as $id_permiso){
+
+                $msg = $this->model->registrarPermisos($id_rol, $id_permiso);
+            
+
+            }
+
+            if ($msg == 'ok') {
+                $msg = array('msg' => ' Permisos asignados', 'icono' => 'success' );
+            } else {
+                $msg = array('msg' => 'Error al asignar los Permisos anteriores', 'icono' => 'error' );
+            }
+            
+
+           } else {
+              $msg = array('msg' => 'Error al eliminar los Permisos anteriores', 'icono' => 'error' );
+           }
+           echo json_encode($msg, JSON_UNESCAPED_UNICODE);
+           
+           
+        }
         public function salir()
         {
             session_destroy();
@@ -159,4 +194,3 @@
     
     }
 ?>
-

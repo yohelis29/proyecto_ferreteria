@@ -5,7 +5,7 @@
 <ol class="breadcrumb mb-4 bg-primary">
     <li class="breadcrumb-item active text-white"><h4>Clientes</h4></li>
 </ol>
-<button class="btn btn-primary mb-2" type="button" onclick="frmCliente();"> <i class= "fas fa-plus"></i></button>
+<button class="btn btn-primary mb-2"  type="button" onclick="frmCliente();"  > <i class= "fas fa-plus"></i></button>
 <table class="table table-light" id="tblClientes">
     <thead class="thead-dark">
         <tr>

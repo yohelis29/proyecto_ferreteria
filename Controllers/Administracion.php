@@ -14,8 +14,8 @@ class Administracion extends Controller{
     public function index()
         {
             $id_user = $_SESSION['id_usuario'];
-            $verificar=$this->model->verificarPermiso($id_user, 'configuracion');
-          if (!empty($verificar) || $id_user == 1) {
+            $verificar=$this->model->verificarPermiso($id_user, 'Configuracion');
+          if (!empty($verificar) ) {
             $data = $this->model->getEmpresa();
             $this->views->getView($this, "index", $data);
           } else {

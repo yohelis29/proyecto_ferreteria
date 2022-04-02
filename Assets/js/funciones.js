@@ -1,4 +1,4 @@
-let tblUsuarios, tblClientes,tblCajas, tblCategorias, tblMedidas, tblProveedores, tblProductos;
+let tblUsuarios, tblClientes,tblCajas, tblCategorias, tblMedidas, tblProveedores, tblProductos, tblRoles;
 document.addEventListener("DOMContentLoaded", function () {
     tblUsuarios = $('#tblUsuarios').DataTable( {
         ajax: {
@@ -10,11 +10,28 @@ document.addEventListener("DOMContentLoaded", function () {
             {'data' : 'usuario'},
             {'data' : 'nombre'},
             {'data' : 'caja'},
+            {'data' : 'rol'},
             {'data' : 'estado'},
             {'data' : 'acciones'}
 
         ]
     } );
+
+    tblRoles = $('#tblRoles').DataTable( {
+        ajax: {
+            url: base_url + "Roles/listar" ,
+            dataSrc: ''
+        },
+        columns: [ 
+            {'data' : 'id'},
+            {'data' : 'nombre'},
+            {'data' : 'estado'},
+            {'data' : 'acciones'}
+
+        ]
+    } );
+
+    
     tblClientes = $('#tblClientes').DataTable( {
         ajax: {
             url: base_url + "Clientes/listar" ,
@@ -139,6 +156,7 @@ function registrarUser(e) {
     const clave = document.getElementById("clave");
     const confirmar = document.getElementById("confirmar");
     const caja = document.getElementById("caja");
+    const rol = document.getElementById("rol");
 
     if (usuario.value == "" || nombre.value == "" || caja.value == "" ) {
         Swal.fire({
@@ -372,9 +390,9 @@ function btnEliminarCli(id) {
                       )
                       tblClientes.ajax.reload();
                 }else{ Swal.fire(
-                    'Mensaje',
+                    res.msg,
                     res,
-                    'error'
+                    res.icono
                   )}
             }
         }
@@ -410,9 +428,10 @@ function btnReingresarCli(id) {
                               )
                               tblClientes.ajax.reload();
                         }else{ Swal.fire(
-                            'Mensaje',
+                      
+                            res.msg,
                             res,
-                            'error'
+                            res.icono
                           )}
                     }
                 }
@@ -636,11 +655,11 @@ function registrarCate(e) {
                    
                 }else{
                     Swal.fire({
-                       
-                        icon: 'error',
-                        title: res,
+                        icon: res.icono,
+                        title: res.msg,
                         showConfirmButton: false,
                         timer: 3000
+                        
                     }) 
                 }
             }
@@ -694,9 +713,9 @@ function btnEliminarCate(id) {
                       )
                       tblCategorias.ajax.reload();
                 }else{ Swal.fire(
-                    'Mensaje',
-                    res,
-                    'error'
+                    res.msg,
+                        res,
+                        res.icono
                   )}
             }
         }
@@ -732,9 +751,9 @@ function btnReingresarCate(id) {
                               )
                               tblCategorias.ajax.reload();
                         }else{ Swal.fire(
-                            'Mensaje',
-                            res,
-                            'error'
+                        res.msg,
+                        res,
+                        res.icono
                           )}
                     }
                 }
@@ -1494,7 +1513,7 @@ function generarCompra(){
 
 function modificarEmpresa() {
     const frm = document.getElementById('frmEmpresa');
-    const url = base_url + "Administracion/modificar";
+    const url = base_url + "Administracion/modificar" ;
     const http = new XMLHttpRequest();
     http.open("POST", url, true);
     http.send(new FormData(frm));
@@ -1517,9 +1536,10 @@ function modificarEmpresa() {
 //-------------------------------------------------------------------------------------
 //Permisos
 
+
 function registrarPermisos(e){
     e.preventDefault();
-    const url = base_url + "Usuarios/registrarPermisos";
+    const url = base_url + "Roles/registrarPermisos" ;
     const frm = document.getElementById('formulario');
     const http = new XMLHttpRequest();
     http.open("POST", url, true);
