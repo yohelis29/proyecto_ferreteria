@@ -54,7 +54,7 @@ class Cajas extends Controller{
                     if ($data == "ok") {
                         $msg = "si";
                      }else if($data == "existe"){
-                        $msg = "La ya existe";
+                        $msg = "La Caja ya existe";
                      }else {
                          $msg ="Error al registrar caja";
                      }

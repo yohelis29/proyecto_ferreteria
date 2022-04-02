@@ -65,9 +65,11 @@
                 if ($data == "ok") {
                    $msg = "si";
                 }else if($data == "existe"){
-                   $msg = "La categoría ya existe";
+                   
+                   $msg = array('msg' => 'La categoría ya existe', 'icono' => 'error' );
                 }else {
-                    $msg ="Error al registrar la Categoría";
+                   
+                    $msg = array('msg' => ' Error al registrar la Categoría', 'icono' => 'error' );
                 }
             } else {
                 $msg = array('msg' => ' No tienes Permisos para registrar categorías', 'icono' => 'warning' );
@@ -82,9 +84,11 @@
                 if ($data == "modificado") {
                    $msg = "modificado";
                 }else if($data=="existe") {
-                    $msg ="categoría ya Existe";
+                    $msg = array('msg' => ' categoría ya Existe', 'icono' => 'error' );
+                
                 }else{
-                    $msg ="Error al modificar la Categoría"; 
+                  
+                    $msg = array('msg' => 'Error al modificar la Categoría', 'icono' => 'error' );
                 }
             } else {
                 $msg = array('msg' => ' No tienes Permisos para editar categorías', 'icono' => 'warning' );

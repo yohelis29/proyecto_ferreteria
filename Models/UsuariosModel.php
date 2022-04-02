@@ -20,15 +20,13 @@ class UsuariosModel extends Query{
 
     public function getRoles()
     {
-        $sql = "SELECT * FROM rol WHERE estado = 1";
+        $sql = "SELECT * FROM rol WHERE estado = 1 AND nombre !='Administrador'";
         $data = $this->selectAll($sql);
         return $data;
     }
     public function getUsuarios()
     {
-      //  $sql = "SELECT * FROM usuarios";
-       // $data = $this->selectAll($sql);
-       // return $data;
+ 
        $sql = "SELECT u.*, c.id as id_caja, c.caja, r.id as id_rol , r.nombre as rol FROM usuarios u INNER JOIN caja c ON u.id_caja = c.id INNER JOIN rol r ON u.id_rol=r.id ";
         $data = $this->selectAll($sql);
         return $data;

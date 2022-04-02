@@ -34,13 +34,21 @@
             $data = $this->model->getUsuarios();
             for ($i=0; $i <count($data); $i++) {
               
-                if ($data[$i]['estado'] == 1) {
-                   $data[$i]['estado'] = '<span class="badge bg-success">Activo</span>';
-
-                   if($data[$i]['rol'] == 'Administrador'){
-                    $data[$i]['rol'] = '<span class="badge bg-primary">Administrador</span>';
-                   }
+               
                 
+                if ($data[$i]['estado'] == 1) {
+
+                    if($data[$i]['usuario'] == 'admin'){
+
+                        if($data[$i]['rol'] == 'Administrador'){
+                            $data[$i]['rol'] = '<span class="badge bg-primary">Administrador</span>';
+                            $data[$i]['estado'] = '<span class="badge bg-success">Activo</span>';
+                            $data[$i]['acciones'] ='';
+                           }
+    
+                    } else{
+
+                   $data[$i]['estado'] = '<span class="badge bg-success">Activo</span>';
 
                 
                 $data[$i]['acciones'] = '<div>
@@ -50,7 +58,7 @@
                 <div/>';
                   
 
-                  
+                  }
                 }else {
                     $data[$i]['estado'] = '<span class="badge bg-danger">Inactivo</span>';
                 }

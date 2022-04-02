@@ -71,9 +71,12 @@
                 if ($data == "ok") {
                    $msg = "si";
                 }else if($data == "existe"){
-                   $msg = "El dni ya existe";
+                  
+                   $msg = array('msg' => ' El dni ya existe', 'icono' => 'error' );
+
                 }else {
-                    $msg ="Error al registrar el Cliente";
+                   
+                    $msg = array('msg' => ' Error al registrar el Cliente', 'icono' => 'error' );
                 }
             } else {
                 $msg = array('msg' => ' No tienes Permisos para registrar clientes', 'icono' => 'warning' );
