@@ -10,6 +10,7 @@
         <link href="<?php echo base_url;?>Assets/css/estilo.css" rel="stylesheet" />
         <link href="<?php echo base_url;?>Assets/css/styles.css" rel="stylesheet" />
         <link href="<?php echo base_url;?>Assets/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
+        <link href="<?php echo base_url;?>Assets/css/select2.min.css" rel="stylesheet" crossorigin="anonymous" />
         <script src="<?php echo base_url;?>Assets/js/all.min.js" crossorigin="anonymous"></script>
     </head>
     <body class="sb-nav-fixed">
@@ -74,7 +75,7 @@
                                 Productos            
                             </a>
                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCompras" aria-expanded="false" aria-controls="collapseCompras">
-                                <div class="sb-nav-link-icon"><i class="fa fa-shopping-cart fa-2x" ></i></i></div>
+                                <div class="sb-nav-link-icon"><i class="fas fa-shopping-basket fa-2x"></i></div>
                                 Entradas
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down fa-2x"></i></div>
                             </a>
@@ -82,6 +83,17 @@
                                 <nav class="sb-sidenav-menu-nested nav">
                                     <a class="nav-link" href="<?php echo base_url;?>Compras"><i class="fas fa-shopping-cart fa-2x mr-2"></i>Nueva compra</a>
                                     <a class="nav-link" href="<?php echo base_url; ?>Compras/historial"><i class="fas fa-list fa-2x mr-2"></i>Historial compras</a>
+                                </nav>
+                            </div>
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseVentas" aria-expanded="false" aria-controls="collapseVentas">
+                                <div class="sb-nav-link-icon"><i class="fas fa-shopping-cart fa-2x" ></i></i></div>
+                                Salidas
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down fa-2x"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseVentas" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="<?php echo base_url;?>Compras/ventas"><i class="fas fa-shopping-cart fa-2x mr-2"></i>Nueva Venta</a>
+                                    <a class="nav-link" href="<?php echo base_url; ?>Compras/historial_ventas"><i class="fas fa-list fa-2x mr-2"></i>Historial ventas</a>
                                 </nav>
                             </div>
 

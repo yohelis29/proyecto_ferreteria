@@ -6,16 +6,16 @@
 
 <div class="card">
 <div class="card-header bg-primary text-white">
-    <h4>Nueva Compra</h4>
+    <h4>Nueva Venta</h4>
 </div>
     <div class="card-body">
-       <form  id= "frmCompra">
+       <form  id= "frmVenta">
            <div class="row">
                <div class="col-md-3">
                     <div class="form-group">
                         <label for="codigo"><i class="fas fa-barcode"></i>Código de barras</label>
                        <input type="hidden" id="id" name="id">
-                        <input id="codigo" class="form-control" type="text" name="codigo" placeholder="Código de barras" onkeyup="buscarCodigo(event)">
+                        <input id="codigo" class="form-control" type="text" name="codigo" placeholder="Código de barras" onkeyup="buscarCodigoVenta(event)">
                     </div>
 
               </div>
@@ -31,14 +31,14 @@
               <div class="col-md-2">
                     <div class="form-group">
                         <label for="cantidad">Cantidad</label>
-                        <input id="cantidad" class="form-control" type="number" name="cantidad" onkeyup = "calcularPrecio(event)"  >
+                        <input id="cantidad" class="form-control" type="number" name="cantidad" onkeyup = "calcularPrecioVenta(event)"  >
                     </div>
 
               </div>
               <div class="col-md-2">
                     <div class="form-group">
                         <label for="precio">Precio</label>
-                        <input id="precio" class="form-control" type="text" name="precio" placeholder="Precio Compra" disabled>
+                        <input id="precio" class="form-control" type="text" name="precio" placeholder="Precio venta" disabled>
                     </div>
 
               </div>
@@ -72,20 +72,30 @@
         
         </tr>
     </thead>
-    <tbody id="tblDetalle">
+    <tbody id="tblDetalleVenta">
     </tbody>
 </table>
 
 <div class="row">
-<div class="col-md-4 ml-auto">
-
+    <div class="col-md-3">
         <div class="form-group">
-        <label for="total" class=" font-weight-bold">Total</label>
-        <input id="total" class="form-control" type="text" name="total" placeholder="Total" disabled>
-     <button class="btn btn-primary mt-2 btn-block" type="button" onclick="procesar(1)">Generar Compra</button>
-    </div>     
+            <label for="cliente">Seleccionar cliente</label>
+            <select id="cliente" class="form-control" name="cliente">
+            <?php 
+               foreach ($data as $row) { ?>
+              <option value="<?php echo $row['id']; ?>"><?php echo $row['nombre']; ?></option>
+              <?php }?>
+            </select>
+        </div>
+    </div>
+    <div class="col-md-3 ml-auto">
+        <div class="form-group">
+            <label for="total" class="font-weight-bold">Total</label>
+            <input id="total" class="form-control" type="text" name="total" placeholder="Total" disabled>
+            <button class="btn btn-primary mt-2 btn-block" type="button" onclick="procesar(0)">Generar Venta</button>
+        </div>     
 
-</div>
+    </div>
 
 </div>
 
