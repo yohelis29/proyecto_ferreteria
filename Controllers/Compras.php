@@ -11,7 +11,13 @@
 
         public function index(){
 
-            $this->views->getView($this, "index");
+            $id_user = $_SESSION['id_usuario'];
+            $verificar=$this->model->verificarPermiso($id_user, 'Nueva_Compra' );
+          if (!empty($verificar) ) {
+              $this->views->getView($this, "index");
+          } else {
+             header('Location: '. base_url . 'Errors/permisos');
+          }
         }
 
         public function buscarCodigo($cod){
@@ -162,7 +168,14 @@
         }
         public function historial()
         {
+            $id_user = $_SESSION['id_usuario'];
+            $verificar=$this->model->verificarPermiso($id_user, 'Historial_Compras' );
+          if (!empty($verificar) ) {
             $this->views->getView($this, "historial");
+          } else {
+             header('Location: '. base_url . 'Errors/permisos');
+          }
+           
         }
         public function listar_historial()
         {

@@ -11,7 +11,14 @@
         public function index()
         {
            
-            $this->views->getView($this, "index");
+            $id_user = $_SESSION['id_usuario'];
+            $verificar=$this->model->verificarPermiso($id_user, 'Ver_Medidas' , 'Crear_Medida');
+          if (!empty($verificar) ) {
+              $this->views->getView($this, "index");
+          } else {
+             header('Location: '. base_url . 'Errors/permisos');
+          }
+           
         }
         public function listar()
         {
@@ -45,28 +52,45 @@
            
            if ( empty($nombre) || empty($nombre_corto)) {
                $msg = "Todos los campos son obligatorios";
+               
            }else {
             if ($id=="") {
+
+                
+                $id_user = $_SESSION['id_usuario'];
+                $verificar=$this->model->verificarPermiso($id_user, 'Crear_Medida','Crear_Medida');
+              if (!empty($verificar) ) {
+                
                 
                 $data=  $this->model->registrarMedi($nombre,$nombre_corto);
                 if ($data == "ok") {
                    $msg = "si";
                 }else if($data == "existe"){
-                   $msg = "La medida ya existe";
+                    $msg = array('msg' => 'La medida ya existe', 'icono' => 'error' );
                 }else {
-                    $msg ="Error al registrar la medida";
+                    $msg = array('msg' => ' Error al registrar la medida', 'icono' => 'error' );
                 }
                 
-                
+            } else {
+                $msg = array('msg' => ' No tienes Permisos para registrar Medidas', 'icono' => 'warning' );
+              }   
+
             }else {
+                $id_user = $_SESSION['id_usuario'];
+                $verificar=$this->model->verificarPermiso($id_user, 'Crear_Medida','Crear_Medida');
+              if (!empty($verificar) ) {
                 $data=  $this->model->modificarMedi($nombre, $nombre_corto,$id);
                 if ($data == "modificado") {
                    $msg = "modificado";
                 }else if($data=="existe") {
-                    $msg ="Medida ya Existe";
+                    $msg = array('msg' => ' Medida ya Existe', 'icono' => 'error' );
                 }else{
-                    $msg ="Error al modificar la Medida"; 
+                    $msg = array('msg' => 'Error al modificar la medida', 'icono' => 'error' );
                 }
+
+            } else {
+                $msg = array('msg' => ' No tienes Permisos para editar medidas', 'icono' => 'warning' );
+              }  
             }
             
            }
@@ -86,6 +110,11 @@
 
         public function eliminar(int $id)
         {
+
+            $id_user = $_SESSION['id_usuario'];
+            $verificar=$this->model->verificarPermiso($id_user, 'Crear_Medida','Crear_Medida');
+          if (!empty($verificar) ) {
+
             $data = $this->model->accionMedi(0, $id);
             if ($data == 1) {
                 $msg ="ok";
@@ -94,6 +123,10 @@
                 $msg ="Error al desactivar";
     
             }
+
+        } else {
+            $msg = array('msg' => ' No tienes Permisos para Desactivar Medidas', 'icono' => 'warning' );
+          }
             echo json_encode($msg, JSON_UNESCAPED_UNICODE);
             die();
         }
@@ -101,6 +134,11 @@
 
         public function reingresar(int $id)
         {
+
+            $id_user = $_SESSION['id_usuario'];
+            $verificar=$this->model->verificarPermiso($id_user, 'Crear_Medida','Crear_Medida');
+          if (!empty($verificar) ) {
+
             $data = $this->model->accionMedi(1, $id);
             if ($data == 1) {
                 $msg ="ok";
@@ -109,6 +147,10 @@
                 $msg = "error al reingresar";
     
             }
+
+        } else {
+            $msg = array('msg' => ' No tienes Permisos para Reingresar Medidas', 'icono' => 'warning' );
+          }
             echo json_encode($msg, JSON_UNESCAPED_UNICODE);
             die();
         }

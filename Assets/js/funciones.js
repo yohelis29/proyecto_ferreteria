@@ -1019,8 +1019,8 @@ function registrarMedida(e) {
                 }else{
                     Swal.fire({
                        
-                        icon: 'error',
-                        title: res,
+                        icon: res.icono,
+                        title: res.msg,
                         showConfirmButton: false,
                         timer: 3000
                     }) 
@@ -1077,9 +1077,9 @@ function btnEliminarMedida(id) {
                       )
                       tblMedidas.ajax.reload();
                 }else{ Swal.fire(
-                    'Mensaje',
+                    res.msg,
                     res,
-                    'error'
+                    res.icono
                   )}
             }
         }
@@ -1115,9 +1115,9 @@ function btnReingresarMedida(id) {
                               )
                               tblMedidas.ajax.reload();
                         }else{ Swal.fire(
-                            'Mensaje',
-                            res,
-                            'error'
+                        res.msg,
+                        res,
+                        res.icono
                           )}
                     }
                 }
@@ -1189,8 +1189,8 @@ function registrarProveedor(e) {
                 }else{
                     Swal.fire({
                        
-                        icon: 'error',
-                        title: res,
+                        icon: res.icono,
+                        title: res.msg,
                         showConfirmButton: false,
                         timer: 3000
                     }) 
@@ -1247,9 +1247,9 @@ function btnEliminarProv(id) {
                       )
                       tblProveedores.ajax.reload();
                 }else{ Swal.fire(
-                    'Mensaje',
+                    res.msg,
                     res,
-                    'error'
+                    res.icono
                   )}
             }
         }
@@ -1285,9 +1285,9 @@ function btnReingresarProv(id) {
                               )
                               tblProveedores.ajax.reload();
                         }else{ Swal.fire(
-                            'Mensaje',
+                            res.msg,
                             res,
-                            'error'
+                            res.icono
                           )}
                     }
                 }

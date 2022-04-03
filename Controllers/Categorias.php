@@ -84,7 +84,7 @@
                 if ($data == "modificado") {
                    $msg = "modificado";
                 }else if($data=="existe") {
-                    $msg = array('msg' => ' categoría ya Existe', 'icono' => 'error' );
+                    $msg = array('msg' => ' Categoría ya Existe', 'icono' => 'error' );
                 
                 }else{
                   
