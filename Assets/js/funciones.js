@@ -1718,6 +1718,172 @@ function registrarPermisos(e){
     }
 }
 
+
+//Roles
+function frmRol() {
+    document.getElementById("title").innerHTML="Nuevo Rol";
+    document.getElementById("btnAccion").innerHTML="Registrar";
+     document.getElementById("frmRol").reset();
+          document.getElementById("id").value = ""; 
+        $("#nuevo_Rol").modal("show");
+     
+
+ 
+}
+
+function registrarRol(e) {
+    e.preventDefault();
+    const nombre = document.getElementById("nombre");
+    
+    if ( nombre.value == "" ) {
+        Swal.fire({
+          
+            icon: 'error',
+            title:'¡Todos los campos son obligatorios!',
+            showConfirmButton: false,
+            timer: 3000
+        })
+    }else{
+        const url = base_url + "Roles/registrar";
+        const frm = document.getElementById("frmRol");
+        const http = new XMLHttpRequest();
+        http.open("POST", url, true);
+        http.send(new FormData(frm));
+        http.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+               const res = JSON.parse(this.responseText);
+                if (res == "si") {
+                    Swal.fire({
+                     
+                        icon: 'success',
+                        title: 'Rol registrado correctamente',
+                        showConfirmButton: false,
+                        timer: 3000
+                    }) 
+                    frm.reset();
+                    $("#nuevo_Rol").modal("hide");
+                   tblRoles.ajax.reload();
+                    
+                }else if (res == "modificado") {
+                    Swal.fire({
+                        
+                        icon: 'success',
+                        title: 'Rol modificado correctamente',
+                        showConfirmButton: false,
+                        timer: 3000
+                    }) 
+                  tblRoles.ajax.reload();
+                  $("#nuevo_Rol").modal("hide");
+                   
+                }else{
+                    Swal.fire({
+                        icon: res.icono,
+                        title: res.msg,
+                        showConfirmButton: false,
+                        timer: 3000
+                        
+                    }) 
+                }
+            }
+        }
+    }
+
+
+}
+function btnEditarRol(id) {
+    document.getElementById("title").innerHTML="Editar Rol";
+    document.getElementById("btnAccion").innerHTML="Actualizar";
+    const url = base_url + "Roles/editar/"+id;
+        const http = new XMLHttpRequest();
+        http.open("GET", url, true);
+        http.send();
+        http.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                const res = JSON.parse(this.responseText);
+                document.getElementById("id").value = res.id; 
+                document.getElementById("nombre").value = res.nombre;
+                $("#nuevo_Rol").modal("show");
+               
+            }
+        }
+    
+}
+function btnEliminarRol(id) {
+    Swal.fire({
+        title: '¿Está seguro de desactivar?',
+        text: "¡El Rol se desactivara!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí',
+        cancelButtonText: 'No',
+      }).then((result) => {
+        if (result.isConfirmed) {
+             const url = base_url + "Roles/eliminar/"+id;
+             const http = new XMLHttpRequest();
+             http.open("GET", url, true);
+             http.send();
+             http.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                const res = JSON.parse(this.responseText);
+                if (res == "ok") {
+                    Swal.fire(
+                        'Mensaje',
+                        'Rol desactivado con éxito',
+                        'success'
+                      )
+                      tblRoles.ajax.reload();
+                }else{ Swal.fire(
+                    res.msg,
+                        res,
+                        res.icono
+                  )}
+            }
+        }
+          
+        }
+      })
+}
+function btnReingresarRol(id) {
+    Swal.fire({
+        title: 'Esta seguro de reingresar?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si!',
+        cancelButtonText: 'No'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const url = base_url + "Roles/reingresar/" + id;
+            const http = new XMLHttpRequest();
+            http.open("GET", url, true);
+            http.send();
+            http.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    const res = JSON.parse(this.responseText);
+                    if (this.readyState == 4 && this.status == 200) {
+                        const res = JSON.parse(this.responseText);
+                        if (res == "ok") {
+                            Swal.fire(
+                                'Mensaje',
+                                'Rol activado con éxito',
+                                'success'
+                              )
+                              tblRoles.ajax.reload();
+                        }else{ Swal.fire(
+                        res.msg,
+                        res,
+                        res.icono
+                          )}
+                    }
+                }
+            }
+        }
+    })
+}
+
 function alertas(mensaje, icono){
     Swal.fire({
                 

@@ -15,23 +15,16 @@ class RolesModel extends Query{
         return $data;
     }
 
-    public function getModulos()
+    public function registrarRol(string $nombre)
     {
-       $sql = "SELECT * FROM modulos WHERE estado = 1";
-        $data = $this->selectAll($sql);
-        return $data;
-    }
-    public function registrarUsuario(string $usuario, string $nombre, string $clave, int $id_caja)
-    {
-        $this->usuario = $usuario;
+       
         $this->nombre = $nombre;
-        $this->clave = $clave;
-        $this->id_caja = $id_caja;
-            $vericar = "SELECT * FROM usuarios WHERE usuario = '$this->usuario'";
-            $existe = $this->select($vericar);
+       
+            $verificar = "SELECT * FROM rol WHERE nombre = '$this->nombre'";
+            $existe = $this->select($verificar);
             if (empty($existe)) {
-            $sql = "INSERT INTO usuarios(usuario, nombre, clave, id_caja) VALUES (?,?,?,?)";
-            $datos = array($this->usuario, $this->nombre, $this->clave, $this->id_caja);
+            $sql = "INSERT INTO rol(nombre) VALUES (?)";
+            $datos = array($this->nombre);
             $data = $this->save($sql, $datos);
             if ($data == 1) {
                 $res = "ok";
@@ -43,46 +36,50 @@ class RolesModel extends Query{
             }
             return $res;
     }
-    public function modificarUsuario(string $usuario, string $nombre, int $id_caja, int $id)
-    {
-        $this->usuario = $usuario;
+    public function modificarRol(string $nombre, int $id)
+    { 
+        
+
+
         $this->nombre = $nombre;
         $this->id = $id;
-        $this->id_caja = $id_caja;
-
-        $vericar = "SELECT * FROM usuarios WHERE usuario = '$this->usuario'";
-        $comprobar = "SELECT * FROM usuarios WHERE id = '$this->id' and usuario = '$this->usuario'";
+        $vericar = "SELECT * FROM rol WHERE nombre = '$this->nombre'";
+        $comprobar = "SELECT * FROM rol WHERE id = '$this->id' and nombre = '$this->nombre'";
         $existe = $this->select($vericar);
         $exist = $this->select($comprobar);
-        if (empty($existe) ||  !empty($exist)) {
-        
-            $sql = "UPDATE usuarios SET usuario = ?, nombre = ?, id_caja = ? WHERE id = ?";
-            $datos = array($this->usuario, $this->nombre, $this->id_caja, $this->id);
+        if (  empty($existe) || !empty($exist)) {
+
+            $sql = "UPDATE rol SET  nombre = ? WHERE id = ?";
+            $datos = array( $this->nombre, $this->id);
             $data = $this->save($sql, $datos);
             if ($data == 1 ) {
                 $res = "modificado";
             } else {
                 $res = "error";
             }
-     }else{
+        }else{
        
-        $res = "existe";
-    } return $res;
-}
+            $res = "existe";
+        }
+        return $res;
+    }
 
-    public function editarUser(int $id)
+    public function editarRol(int $id)
     {
-        $sql = "SELECT * FROM usuarios WHERE id = $id";
+        $sql = "SELECT * FROM rol WHERE id = $id";
         $data = $this->select($sql);
         return $data;
     }
 
-    public function eliminarUser(int $id)
+    public function accionRol(int $estado, int $id)
     {
-        $sql = "DELETE  FROM usuarios WHERE id = $id";
-        $data = $this->select($sql);
+        $this->id = $id;
+        $this->estado = $estado;
+        $sql = "UPDATE rol SET estado = ? WHERE id = ?";
+        $datos = array($this->estado, $this->id);
+        $data = $this->save($sql, $datos);
         return $data;
-    }
+    } 
 
     public function getPermisos()
     {

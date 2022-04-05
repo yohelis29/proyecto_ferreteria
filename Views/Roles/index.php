@@ -3,16 +3,14 @@
     include "Views/Templates/header.php";
 ?>
 <ol class="breadcrumb mb-4 bg-primary">
-    <li class="breadcrumb-item active text-white">
-        <h4>Roles</h4>
-    </li>
+    <li class="breadcrumb-item active text-white"><h4>Roles</h4></li>
 </ol>
-<button class="btn btn-primary mb-2" type="button" onclick="frmRoles();"> <i class="fas fa-plus"></i></button>
+<button class="btn btn-primary mb-2" type="button" onclick="frmRol();"> <i class= "fas fa-plus"></i></button>
 <table class="table table-light" id="tblRoles">
     <thead class="thead-dark">
         <tr>
             <th>Id</th>
-            <th>Rol</th>
+            <th>Rol</th>   
             <th>Estado</th>
             <th></th>
         </tr>
@@ -20,53 +18,25 @@
     <tbody>
     </tbody>
 </table>
-<div id="nuevo_usuario" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="my-modal-title"
-    aria-hidden="true">
+<div id="nuevo_Rol" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header bg-primary">
-                <h5 class="modal-title text-white" id="title">Nuevo Usuario</h5>
+                <h5 class="modal-title text-white" id="title">Nueva Categoría</h5>
                 <button class="close bg-primary" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form method="post" id="frmUsuario">
-                    <div class="form-group">
-                        <label for="usuario">Usuario</label>
+                <form method="post" id="frmRol">
+                <div class="form-floating mb-3">
                         <input type="hidden" id="id" name="id">
-                        <input id="usuario" class="form-control" type="text" name="usuario" placeholder="Usuario">
-                    </div>
                     <div class="form-group">
                         <label for="nombre">Nombre</label>
                         <input id="nombre" class="form-control" type="text" name="nombre" placeholder="Nombre">
                     </div>
-                    <div class="row" id="claves">
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="clave">Contraseña</label>
-                                <input id="clave" class="form-control" type="password" name="clave"
-                                    placeholder="Contraseña">
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="confirmar">Contraseña</label>
-                                <input id="confirmar" class="form-control" type="password" name="confirmar"
-                                    placeholder="Contraseña">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="caja">Caja</label>
-                        <select id="caja" class="form-control" name="caja">
-                            <?php foreach ($data['cajas'] as $row) { ?>
-                            <option value="<?php echo $row['id']; ?>"><?php echo $row['caja']; ?></option>
-                            <?php } ?>
-                        </select>
-                    </div>
-                    <button class="btn btn-primary mb-2" type="button" onclick="registrarUser(event);"
-                        id="btnAccion">Registrar</button>
+                   
+                    <button class="btn btn-primary mb-2" type="button" onclick="registrarRol(event);" id= "btnAccion">Registrar</button>
                 </form>
             </div>
         </div>
