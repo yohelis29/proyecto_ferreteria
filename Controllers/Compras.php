@@ -21,8 +21,15 @@
         }
         public function ventas(){
 
-              $data = $this->model->getClientes();
-              $this->views->getView($this, "ventas", $data);
+            $id_user = $_SESSION['id_usuario'];
+            $verificar=$this->model->verificarPermiso($id_user, 'Nueva_Venta' );
+                if (!empty($verificar) ) {
+                    $data = $this->model->getClientes();
+                    $this->views->getView($this, "ventas", $data);
+                } else {
+                header('Location: '. base_url . 'Errors/permisos');
+                }
+        
           
         }
 

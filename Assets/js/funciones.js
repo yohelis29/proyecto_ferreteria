@@ -825,10 +825,10 @@ function registrarPro(e) {
                 }else{
                 Swal.fire({
                        
-                  icon: 'error',
-                  title: res,
-                  showConfirmButton: false,
-                  timer: 3000
+                    icon: res.icono,
+                    title: res.msg,
+                    showConfirmButton: false,
+                    timer: 3000
                   }) 
                 }
             }
@@ -893,9 +893,9 @@ function btnEliminarPro(id) {
                       )
                       tblProductos.ajax.reload();
                 }else{ Swal.fire(
-                    'Mensaje',
+                    res.msg,
                     res,
-                    'error'
+                    res.icono
                   )}
             }
         }
@@ -931,9 +931,9 @@ function btnReingresarPro(id) {
                               )
                               tblProductos.ajax.reload();
                         }else{ Swal.fire(
-                            'Mensaje',
+                            res.msg,
                             res,
-                            'error'
+                            res.icono
                           )}
                     }
                 }

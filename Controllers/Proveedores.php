@@ -11,7 +11,14 @@
         public function index()
         {
            
-            $this->views->getView($this, "index");
+
+            $id_user = $_SESSION['id_usuario'];
+            $verificar=$this->model->verificarPermiso($id_user, 'Ver_Proveedores' , 'Crear_Proveedor');
+          if (!empty($verificar) ) {
+              $this->views->getView($this, "index");
+          } else {
+             header('Location: '. base_url . 'Errors/permisos');
+          }
         }
         public function listar()
         {
@@ -47,26 +54,40 @@
                $msg = "Todos los campos son obligatorios";
            }else {
             if ($id=="") {
+
+                $id_user = $_SESSION['id_usuario'];
+                $verificar=$this->model->verificarPermiso($id_user, 'Crear_Proveedor','Crear_Proveedor');
+              if (!empty($verificar) ) {
                 
                 $data=  $this->model->registrarProv($nombre,$telefono);
                 if ($data == "ok") {
                    $msg = "si";
                 }else if($data == "existe"){
-                   $msg = "El proveedor ya existe";
+                   $msg = array('msg' => ' El proveedor ya existe', 'icono' => 'error' );
                 }else {
-                    $msg ="Error al registrar el proveedor";
+                    $msg = array('msg' => ' Error al registrar el proveedor', 'icono' => 'error' );
                 }
-                
+            } else {
+                $msg = array('msg' => ' No tienes Permisos para registrar Proveedores', 'icono' => 'warning' );
+              }    
                 
             }else {
+
+                $id_user = $_SESSION['id_usuario'];
+                $verificar=$this->model->verificarPermiso($id_user, 'Crear_Proveedor','Crear_Proveedor');
+              if (!empty($verificar) ) {
                 $data=  $this->model->modificarProv($nombre, $telefono,$id);
                 if ($data == "modificado") {
                    $msg = "modificado";
                 }else if($data=="existe") {
-                    $msg ="Proveedor ya Existe";
+                    $msg = array('msg' => 'Proveedor ya Existe', 'icono' => 'error' );
                 }else{
-                    $msg ="Error al modificar el proveedor"; 
+                    $msg = array('msg' => 'Error al modificar el proveedor', 'icono' => 'error' );
                 }
+
+            } else {
+                $msg = array('msg' => ' No tienes Permisos para Editar Proveedores', 'icono' => 'warning' );
+              } 
             }
             
            }
@@ -86,6 +107,10 @@
 
         public function eliminar(int $id)
         {
+
+            $id_user = $_SESSION['id_usuario'];
+            $verificar=$this->model->verificarPermiso($id_user, 'Crear_Proveedor','Crear_Proveedor');
+          if (!empty($verificar) ) {
             $data = $this->model->accionProv(0, $id);
             if ($data == 1) {
                 $msg ="ok";
@@ -94,6 +119,10 @@
                 $msg ="Error al desactivar";
     
             }
+
+        } else {
+            $msg = array('msg' => ' No tienes Permisos para Desactivar Proveedores', 'icono' => 'warning' );
+          } 
             echo json_encode($msg, JSON_UNESCAPED_UNICODE);
             die();
         }
@@ -101,6 +130,9 @@
 
         public function reingresar(int $id)
         {
+            $id_user = $_SESSION['id_usuario'];
+            $verificar=$this->model->verificarPermiso($id_user, 'Crear_Proveedor','Crear_Proveedor');
+          if (!empty($verificar) ) {
             $data = $this->model->accionProv(1, $id);
             if ($data == 1) {
                 $msg ="ok";
@@ -109,6 +141,10 @@
                 $msg = "error al reingresar";
     
             }
+
+        } else {
+            $msg = array('msg' => ' No tienes Permisos para Reingresar Proveedores', 'icono' => 'warning' );
+          } 
             echo json_encode($msg, JSON_UNESCAPED_UNICODE);
             die();
         }

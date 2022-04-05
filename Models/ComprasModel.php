@@ -131,7 +131,7 @@ class ComprasModel extends Query{
   }
   public function registrarDetalleVenta(int $id_venta, int $id_pro, int $cantidad, string $precio, string $sub_total){
     $sql = "INSERT INTO detalle_ventas(id_venta, id_producto, cantidad, precio, sub_total) VALUES (?,?,?,?,?)";
-    $datos = array($id_compra, $id_pro, $cantidad, $precio, $sub_total);
+    $datos = array($id_venta, $id_pro, $cantidad, $precio, $sub_total);
     $data = $this->save($sql, $datos);
     if ($data == 1) {
         $res = "";

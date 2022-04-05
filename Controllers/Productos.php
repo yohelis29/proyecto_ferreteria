@@ -10,11 +10,20 @@
             if (empty($_SESSION['activo'])) {
                 header("location: " . base_url);
             }
+          
+            $id_user = $_SESSION['id_usuario'];
+            $verificar=$this->model->verificarPermiso($id_user, 'Ver_Productos' , 'Crear_Producto');
+          if (!empty($verificar) ) {
             $data['medidas'] = $this->model->getMedidas();
             $data['categorias'] = $this->model->getCategorias();
             $data['proveedores'] = $this->model->getProveedores();
             //print_r($this->model->getProducto());
             $this->views->getView($this, "index", $data);
+          } else {
+             header('Location: '. base_url . 'Errors/permisos');
+          }
+
+
         }
 
         public function listar()
@@ -69,6 +78,9 @@
                    $imgNombre = "default.jpg";
                }
             if ($id=="") {
+                $id_user = $_SESSION['id_usuario'];
+                $verificar=$this->model->verificarPermiso($id_user, 'Crear_Producto','Crear_Producto');
+              if (!empty($verificar) ) {
                $data=  $this->model->registrarProducto($codigo,$nombre,$precio_compra,$precio_venta,$medida,$categoria,$proveedor,$imgNombre);
                 if ($data == "ok") {
                 if(!empty($name)){
@@ -78,12 +90,22 @@
                     $msg = "si";
                
                 }else if($data == "existe"){
-                   $msg = "El Producto ya existe";
+                  
+                   $msg = array('msg' => 'El Producto ya existe', 'icono' => 'error' );
                 }else {
-                    $msg ="Error al registrar el Producto";
+             
+                    $msg = array('msg' => 'Error al registrar el Producto', 'icono' => 'error' );
                 }
-                
+
+
+                           } else {
+                $msg = array('msg' => ' No tienes Permisos para registrar productos', 'icono' => 'warning' );
+              }  
             }else {
+
+                $id_user = $_SESSION['id_usuario'];
+                $verificar=$this->model->verificarPermiso($id_user, 'Crear_Producto','Crear_Producto');
+              if (!empty($verificar) ) {
                 $imgDelete = $this->model->editarPro($id);
 
                 if ($imgDelete['foto'] != 'default.jpg' || $imgDelete['foto'] != "default.jpg" ) {
@@ -98,11 +120,15 @@
                     }
                  $msg = "modificado";
                 }else if($data=="existe") {
-                $msg ="Producto ya Existe";
+        
+                $msg = array('msg' => ' Producto ya Existe', 'icono' => 'error' );
                  }else{
-                $msg ="Error al modificar el Producto"; 
+                $msg = array('msg' => 'Error al modificar el Producto', 'icono' => 'error' );
                 }
-                
+               
+            } else {
+                $msg = array('msg' => ' No tienes Permisos para editar productos', 'icono' => 'warning' );
+              }  
             }
             
            }
@@ -119,6 +145,10 @@
         }
         public function eliminar(int $id)
         {
+            $id_user = $_SESSION['id_usuario'];
+            $verificar=$this->model->verificarPermiso($id_user, 'Crear_Producto','Crear_Producto');
+          if (!empty($verificar) ) {
+
             $data = $this->model->accionPro(0, $id);
             if ($data == 1) {
                 $msg ="ok";
@@ -127,11 +157,19 @@
                 $msg ="Error al desactivar";
     
             }
+
+        } else {
+            $msg = array('msg' => ' No tienes Permisos para Desactivar Productos', 'icono' => 'warning' );
+          }
             echo json_encode($msg, JSON_UNESCAPED_UNICODE);
             die();
         }
         public function reingresar(int $id)
         {
+            $id_user = $_SESSION['id_usuario'];
+            $verificar=$this->model->verificarPermiso($id_user, 'Crear_Categoria','Crear_Producto');
+          if (!empty($verificar) ) {
+
             $data = $this->model->accionPro(1, $id);
             if ($data == 1) {
                 $msg ="ok";
@@ -140,6 +178,9 @@
                 $msg = "error al reingresar";
     
             }
+        } else {
+            $msg = array('msg' => ' No tienes Permisos para Reingresar Productos', 'icono' => 'warning' );
+          }
             echo json_encode($msg, JSON_UNESCAPED_UNICODE);
             die();
         }
