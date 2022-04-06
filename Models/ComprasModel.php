@@ -166,6 +166,13 @@ class ComprasModel extends Query{
   
 
     }
+    public function getProVenta(int $id_venta){
+        $sql = "SELECT c.*, d.*, p.id, p.descripcion FROM ventas c INNER JOIN detalle_ventas d ON c.id = d.id_venta INNER JOIN productos p ON p.id = d.id_producto WHERE c.id = $id_venta";
+        $data = $this->selectAll($sql);
+        return $data;
+    
+  
+      }
     public function getHistorialcompras()
     {
         $sql = "SELECT * FROM compras";

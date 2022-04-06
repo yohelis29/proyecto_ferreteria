@@ -137,11 +137,11 @@
         public function registrarCompra()
         {
             $id_usuario = $_SESSION['id_usuario'];
-            $total = $this->model->calcularCompra('detalle',$id_usuario);
+            $total = $this->model->calcularCompra('detalle', $id_usuario);
             $data = $this->model->registraCompra($total['total']);   
             if ($data == 'ok'){
-                $detalle = $this->model->getDetalle('detalle',$id_usuario);
-                $id_compra = $this->model->id_compra();
+                $detalle = $this->model->getDetalle('detalle', $id_usuario);
+                $id_compra = $this->model->getId('compras');
                 foreach($detalle as $row){
                     $cantidad=$row['cantidad'];
                     $precio=$row['precio'];
@@ -274,7 +274,7 @@
         public function generarPdfVenta($id_venta){
 
             $empresa = $this->model->getEmpresa();
-            $productos = $this->model->getProCompra($id_venta);
+            $productos = $this->model->getProVenta($id_venta);
             
             require('Libraries/fpdf/fpdf.php');
             $pdf = new FPDF('P', 'mm', array(80, 200));
