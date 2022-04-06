@@ -78,7 +78,10 @@
            $precio = $datos['precio_venta'];
            $cantidad = $_POST['cantidad'];
            $comprobar=$this->model->consultarDetalle('detalle_temp', $id_producto, $id_usuario);
+          
+           
            if (empty($comprobar)){
+              if($datos['cantidad']>=$cantidad){
                $sub_total = $precio * $cantidad;
                $data = $this->model->registrarDetalle('detalle_temp',$id_producto, $id_usuario, $precio, $cantidad, $sub_total);
                if ($data == "ok"){
@@ -86,8 +89,14 @@
               }else{
                    $msg = "Error al Ingresar el Producto";
               }
+            }else{
+                $msg = array('msg' => 'El producto tiene un Stock de: ' . $datos['cantidad'] , 'icono' => 'warning');
+            }
+
           }else{
+              
               $total_cantidad = $comprobar['cantidad'] + $cantidad;
+               if($datos['cantidad'] >= $total_cantidad ){
               $sub_total= $total_cantidad * $precio;
               $data = $this->model->actualizarDetalle('detalle_temp',$precio, $total_cantidad, $sub_total,$id_producto, $id_usuario);
               if ($data == "modificado"){
@@ -95,7 +104,12 @@
               }else{
                   $msg = "Error al modificar el Producto";
                }
+            }else{
+                $msg = array('msg' => 'El producto tiene un Stock de: ' . $datos['cantidad'], 'icono' => 'warning');
+            }
            }
+       
+
           echo json_encode($msg, JSON_UNESCAPED_UNICODE);
           die();
 

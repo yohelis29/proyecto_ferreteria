@@ -1441,6 +1441,7 @@ function calcularPrecioVenta(e){
         http.open("POST", url, true);
         http.send(new FormData(frm));
         http.onreadystatechange = function () {
+            
             if (this.readyState == 4 && this.status == 200) {
                const res = JSON.parse(this.responseText);
                if (res == 'ok'){
@@ -1464,13 +1465,19 @@ function calcularPrecioVenta(e){
                    frm.reset();
                   cargarDetalleVenta();
                }
+            else{ Swal.fire(
+                res.msg,
+                res,
+                res.icono
+              )}
 
-            }
+ 
         }
         }
     }
       
       
+}
 }
 
 if (document.getElementById('tblDetalle')) {
