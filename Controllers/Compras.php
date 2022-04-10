@@ -278,9 +278,20 @@
         {
            $data = $this->model->getHistorialcompras();
            for ($i=0; $i <count($data); $i++) {
+            if ($data[$i]['estado'] == 1) {
+                $data[$i]['estado'] = '<span class="badge bg-success">Completado</span>';
+                $data[$i]['acciones'] = '<div>
+                <button class="btn btn-warning" onclick=btnAnularC('.$data[$i]['id'].')><i class="fas fa-ban"></i></button>
+                <a class="btn btn-danger" href="'.base_url."Compras/generarPdf/".$data[$i]['id'].'" target="_blank"><i class="fas fa-file-pdf"></i></a>
+                <div/>';
+            }else {
+                $data[$i]['estado'] = '<span class="badge bg-danger">Anulado</span>';
                 $data[$i]['acciones'] = '<div>
                 <a class="btn btn-danger" href="'.base_url."Compras/generarPdf/".$data[$i]['id'].'" target="_blank"><i class="fas fa-file-pdf"></i></a>
                 <div/>';
+            }    
+            
+                
         }
            echo json_encode($data, JSON_UNESCAPED_UNICODE);
            die();
@@ -341,6 +352,30 @@
             $pdf->Cell(70, 5, 'Total a pagar', 0, 1, 'R');
             $pdf->Cell(70, 5, number_format($total, 2, '.', ','), 0, 1, 'R');
             $pdf->Output();
+        }
+
+        //HISTORIA 9; Descuento a usuario
+        //----------------------------
+
+
+
+
+        //Historia 10:
+        public function anularCompra($id_compra){
+            $data = $this->model->getAnularCompra($id_compra);
+            $anular = $this->model->getAnular($id_compra);
+            foreach ($data as  $row) {
+                $stock_actual = $this->model->getProductos($row['id_producto']);
+                $stock = $stock_actual["cantidad"] - $row['cantidad'];
+                $this->model->actualizarStock($stock,$row['id_producto']);
+            }
+            if ($anular == 'ok') {
+                $msg = array('msg' => 'Compra anulada', 'icono' => 'success');
+            }else{
+                $msg = array('msg' => 'Error al anular', 'icono' => 'error');
+            }
+            echo json_encode($msg);
+            die();
         }
 
     }        
