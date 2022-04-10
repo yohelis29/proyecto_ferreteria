@@ -167,7 +167,7 @@ class ComprasModel extends Query{
 
     }
     public function getProVenta(int $id_venta){
-        $sql = "SELECT c.*, d.*, p.id, p.descripcion FROM ventas c INNER JOIN detalle_ventas d ON c.id = d.id_venta INNER JOIN productos p ON p.id = d.id_producto WHERE c.id = $id_venta";
+        $sql = "SELECT v.*, d.*, p.id, p.descripcion  FROM ventas v INNER JOIN detalle_ventas d ON v.id = d.id_venta INNER JOIN productos p ON p.id = d.id_producto  WHERE v.id = $id_venta";
         $data = $this->selectAll($sql);
         return $data;
     
@@ -176,6 +176,12 @@ class ComprasModel extends Query{
     public function getHistorialcompras()
     {
         $sql = "SELECT * FROM compras";
+        $data = $this->selectAll($sql);
+        return $data;
+    }
+    public function getHistorialVentas()
+    {
+        $sql = "SELECT c.id, c.nombre, v.* FROM clientes c INNER JOIN ventas v ON v.id_cliente = c.id";
         $data = $this->selectAll($sql);
         return $data;
     }
@@ -222,6 +228,13 @@ class ComprasModel extends Query{
             $res = "error";
         }
         return $res;
+       }
+
+       public function clientesVenta(int $id)
+       {
+        $sql = "SELECT v.id, v.id_cliente, c.* FROM ventas v INNER JOIN clientes c ON c.id = v.id_cliente WHERE v.id = $id";
+        $data = $this->select($sql);
+        return $data;
        }
 
 

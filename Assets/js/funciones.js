@@ -142,7 +142,51 @@ document.addEventListener("DOMContentLoaded", function () {
 
         ]
     } );
+
+    t_historial_v= $('#t_historial_v').DataTable( {
+        ajax: {
+            url: base_url + "Compras/listar_historial_venta",
+            dataSrc: ''
+        },
+        columns: [ 
+            {'data' : 'id'},
+            {'data' : 'nombre'},
+            {'data' : 'total'},
+            {'data' : 'fecha'},
+            {'data' : 'acciones'}
+
+        ]
+    } );
 })
+function frmCambiarPass(e) {
+    e.preventDefault();
+    const actual = document.getElementById('clave_actual').value;
+    const nueva = document.getElementById('clave_nueva').value;
+    const confirmar = document.getElementById('confirmar_clave').value;
+    if (actual == '' || nueva == '' || confirmar == '') {
+        alertas('todos los campos son obligatorios','warning');
+    }else{
+        if (nueva != confirmar) {
+            alertas('Las contraseñas no coinciden','warning');
+           }else{
+                 const url = base_url + "Usuarios/cambiarPass";
+                 const frm = document.getElementById("frmCambiarPass");
+                 const http = new XMLHttpRequest();
+                 http.open("POST", url, true);
+                 http.send(new FormData(frm));
+                 http.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        const res = JSON.parse(this.responseText);
+                        alertas(res.msg, res.icono);
+                        $("#cambiarPass").modal("hide");
+                        frm.reset();
+                       
+                    }
+                } 
+            }   
+        
+    }
+}
 
 function frmUsuario() {
     document.getElementById("title").innerHTML="Registrar usuario";

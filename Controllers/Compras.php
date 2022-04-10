@@ -33,6 +33,19 @@
           
         }
 
+        public function historial_ventas(){
+
+            $id_user = $_SESSION['id_usuario'];
+            $verificar=$this->model->verificarPermiso($id_user, 'Nueva_Venta' );
+                if (!empty($verificar) ) {
+                    $this->views->getView($this, "historial_ventas");
+                } else {
+                header('Location: '. base_url . 'Errors/permisos');
+                }
+        
+          
+        }
+
         public function buscarCodigo($cod){
 
             $data = $this->model->getProcod($cod);
@@ -296,6 +309,19 @@
            echo json_encode($data, JSON_UNESCAPED_UNICODE);
            die();
         }
+
+        public function listar_historial_venta()
+        {
+           $data = $this->model->getHistorialVentas();
+           for ($i=0; $i <count($data); $i++) {
+                $data[$i]['acciones'] = '<div>
+                <a class="btn btn-danger" href="'.base_url."Compras/generarPdfVenta/".$data[$i]['id'].'" target="_blank"><i class="fas fa-file-pdf"></i></a>
+                <div/>';
+        }
+           echo json_encode($data, JSON_UNESCAPED_UNICODE);
+           die();
+        }
+
         public function generarPdfVenta($id_venta){
 
             $empresa = $this->model->getEmpresa();
@@ -328,6 +354,20 @@
             $pdf->Cell(18, 5, utf8_decode('Folio: ') ,0, 0, 'L');
             $pdf->SetFont('Arial','',9);
             $pdf->Cell(20, 5, $id_venta,0, 1, 'L');
+            $pdf->Ln();
+            //Encabezado de Clientes
+            $pdf->SetFillColor(0, 0, 0);
+            $pdf->SetTextColor(255, 255, 255 );
+            $pdf->SetFont('Arial','B',7);
+            $pdf->Cell(25, 5, 'Nombre', 0, 0, 'L', true);
+            $pdf->Cell(20, 5, utf8_decode('Telefono'), 0, 0, 'L', true);
+            $pdf->Cell(25, 5, utf8_decode('Direccion'), 0, 1, 'L', true);
+            $pdf->SetTextColor(0, 0, 0);
+            $clientes = $this->model->clientesVenta($id_venta);
+            $pdf->SetFont('Arial','',7);
+                $pdf->Cell(25, 5, utf8_decode($clientes['nombre']), 0, 0, 'L');
+                $pdf->Cell(20, 5, $clientes['telefono'], 0, 0, 'L');
+                $pdf->Cell(25, 5, utf8_decode($clientes['direccion']), 0, 1, 'L');
             $pdf->Ln();
 
             //Encabezado de Productos
