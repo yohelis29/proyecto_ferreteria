@@ -205,6 +205,27 @@ class ComprasModel extends Query{
        }
 
 
+    //Historia 10
+    public function getAnularCompra(int $id_compra){
+        $sql = "SELECT c.*, d.* FROM compras c INNER JOIN detalle_compras d ON c.id = d.id_compra WHERE c.id = $id_compra";
+        $data = $this->selectAll($sql);
+      return $data;
+    }
+
+    public function getAnular(int $id_compra){
+        $sql = "UPDATE compras SET estado = ? WHERE id = ?";
+        $datos = array(0, $id_compra);
+        $data = $this->save($sql, $datos);
+        if ($data == 1) {
+            $res = "ok";
+        }else{
+            $res = "error";
+        }
+        return $res;
+       }
+
+
+
 }
 
 ?>
