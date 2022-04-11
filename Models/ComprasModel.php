@@ -236,6 +236,33 @@ class ComprasModel extends Query{
         $data = $this->select($sql);
         return $data;
        }
+   
+    public function verificarDescuento(int $id){
+        $sql = "SELECT * FROM detalle_temp WHERE id = $id";
+        $data = $this->select($sql);
+        return $data;
+
+       }
+
+       public function actualizarDescuento(string $desc, string $sub_total, int $id){
+        $sql = "UPDATE detalle_temp SET descuento=?, sub_total=? WHERE id=?";
+        $datos = array($desc, $sub_total, $id);
+        $data = $this->save($sql, $datos);
+        if ($data == 1) {
+            $res = "ok";
+        }else{
+            $res = "error";
+        }
+        return $res;
+       }
+
+       public function getDescuento(int $id_venta)
+       {
+           $sql = "SELECT descuento, SUM(descuento) AS total FROM detalle_ventas WHERE id_venta = $id_venta";
+           $data = $this->select($sql);
+           return $data;
+       }
+
 
 
 
