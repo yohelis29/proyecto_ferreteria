@@ -325,6 +325,7 @@
         public function generarPdfVenta($id_venta){
 
             $empresa = $this->model->getEmpresa();
+            $descuento = $this->model->getDescuento($id_venta);
             $productos = $this->model->getProVenta($id_venta);
             
             require('Libraries/fpdf/fpdf.php');
@@ -389,13 +390,35 @@
                  
             }
             $pdf->Ln();
+            $pdf->Cell(70, 5, 'Descuento Total', 0, 1, 'R');
+            $pdf->Cell(70, 5, number_format($descuento['total'], 2, '.', ','), 0, 1, 'R');
             $pdf->Cell(70, 5, 'Total a pagar', 0, 1, 'R');
             $pdf->Cell(70, 5, number_format($total, 2, '.', ','), 0, 1, 'R');
             $pdf->Output();
         }
 
         //HISTORIA 9; Descuento a usuario
-        //----------------------------
+        public function calcularDescuento($datos){
+            $array= explode("," , $datos);
+            $id = $array[0];
+            $desc = $array[1];
+            if (empty($id)|| empty($desc)){
+                $msg=array('msg'=> 'Error', 'icono'=>'error');
+            }else{
+                $descuento_actual= $this-> model-> verificarDescuento($id);
+                $descuento_total= $descuento_actual['descuento'] + $desc;
+                $sub_total= ($descuento_actual['cantidad'] * $descuento_actual['precio']) - $descuento_total;
+                $data= $this-> model-> actualizarDescuento($descuento_total, $sub_total, $id);
+                if ($data =='ok'){
+                    $msg = array('msg'=> 'Descuento Aplicado', 'icono'=> 'success');
+                }else{
+                    $msg=array('msg'=> 'Error al aplicar el descuento', 'icono'=> 'error');
+                }
+            }
+            echo json_encode($msg);
+            die();
+        }
+
 
 
 
