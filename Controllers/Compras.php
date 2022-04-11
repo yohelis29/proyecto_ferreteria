@@ -200,10 +200,11 @@
                 $id_venta = $this->model->getId('ventas');
                 foreach($detalle as $row){
                     $cantidad=$row['cantidad'];
+                    $desc=$row['descuento'];
                     $precio=$row['precio'];
                     $id_pro=$row['id_producto'];
-                    $sub_total=$cantidad * $precio;
-                    $this->model->registrarDetalleVenta($id_venta['id'],$id_pro, $cantidad,$precio,$sub_total);
+                    $sub_total=($cantidad * $precio) - $desc;
+                    $this->model->registrarDetalleVenta($id_venta['id'],$id_pro, $cantidad, $desc, $precio,$sub_total);
                     $stock_actual = $this->model->getProductos($id_pro);
                     $stock = $stock_actual["cantidad"] - $cantidad;
                     $this->model->actualizarStock($stock, $id_pro);
