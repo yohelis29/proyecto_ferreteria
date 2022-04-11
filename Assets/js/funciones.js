@@ -1562,9 +1562,8 @@ http.onreadystatechange = function () {
     }
 }
 }
+
 function cargarDetalleVenta() {
-
-
 const url = base_url + "Compras/listar/detalle_temp";
 const http = new XMLHttpRequest();
 http.open("GET", url, true);
@@ -1578,6 +1577,8 @@ http.onreadystatechange = function () {
           <td>${row['id']}</td>
           <td>${row['descripcion']}</td>
           <td>${row['cantidad']}</td>
+          <td><input class="form-control" placeholder="Desc" type="text" onkeyup="calcularDescuento(event,${row['id']})"></td>
+          <td>${row['descuento']}</td>
           <td>${row['precio']}</td>
           <td>${row['sub_total']}</td>
           <td>
@@ -1592,6 +1593,29 @@ http.onreadystatechange = function () {
     }
 }
 }
+
+function calcularDescuento(e, id){
+    e.preventDefault();
+    if (e.target.value==''){
+        alertas('Ingrese el descuento', 'warning');
+    }else{
+        if (e.which==13){
+            const url= base_url + "Compras/calcularDescuento/" + id + "/" + e.target.value;
+            const http = new XMLHttpRequest();
+            http.open("GET", url, true);
+            http.send();
+            http.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                const res = JSON.parse(this.responseText); 
+                alertas(res.msg, res.icono);
+                cargarDetalleVenta();
+                }
+            }        
+         }      
+
+    }
+}
+
 function deleteDetalle(id, accion) {
    
     
