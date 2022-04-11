@@ -1930,6 +1930,76 @@ function alertas(mensaje, icono){
 
 }
 
+reporteStock();
+productosVendidos();
+function reporteStock() {
+    
+    const url = base_url + "Administracion/reporteStock" ;
+    const http = new XMLHttpRequest();
+    http.open("POST", url, true);
+    http.send();
+    http.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {          
+         const res = JSON.parse(this.responseText);
+         let nombre = [];
+         let cantidad = [];
+         for (let i = 0; i < res.length; i++) {
+             nombre.push(res[i]['descripcion']);
+             cantidad.push(res[i]['cantidad']);
+             
+         }
+         var ctx = document.getElementById("stockMinimo");
+         var myPieChart = new Chart(ctx, {
+         type: 'pie',
+         data: {
+         labels: nombre,
+         datasets: [{
+         data: cantidad,
+        backgroundColor: ['#007bff', '#dc3545', '#ffc107', '#28a745'],
+    }],
+  },
+});
+
+
+        }
+        
+    }
+}
+
+function productosVendidos() {
+    
+    const url = base_url + "Administracion/productosVendidos" ;
+    const http = new XMLHttpRequest();
+    http.open("POST", url, true);
+    http.send();
+    http.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {          
+         const res = JSON.parse(this.responseText);
+         let nombre = [];
+         let cantidad = [];
+         for (let i = 0; i < res.length; i++) {
+             nombre.push(res[i]['descripcion']);
+             cantidad.push(res[i]['total']);
+             
+         }
+         var ctx = document.getElementById("ProductosVendidos");
+var myPieChart = new Chart(ctx, {
+  type: 'doughnut',
+  data: {
+    labels: nombre,
+    datasets: [{
+      data: cantidad,
+      backgroundColor: ['#007bff', '#dc3545', '#ffc107', '#28a745'],
+    }],
+  },
+});
+
+
+        }
+        
+    }
+}
+
 function btnAnularC(id){
    
     Swal.fire({
@@ -1959,5 +2029,7 @@ function btnAnularC(id){
     })
 
 }
+
+
 
 
