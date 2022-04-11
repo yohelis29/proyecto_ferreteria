@@ -129,9 +129,10 @@ class ComprasModel extends Query{
     }
     return $res;
   }
-  public function registrarDetalleVenta(int $id_venta, int $id_pro, int $cantidad, string $precio, string $sub_total){
-    $sql = "INSERT INTO detalle_ventas(id_venta, id_producto, cantidad, precio, sub_total) VALUES (?,?,?,?,?)";
-    $datos = array($id_venta, $id_pro, $cantidad, $precio, $sub_total);
+
+  public function registrarDetalleVenta(int $id_venta, int $id_pro, int $cantidad, string $desc ,string $precio, string $sub_total){
+    $sql = "INSERT INTO detalle_ventas(id_venta, id_producto, cantidad, descuento, precio, sub_total) VALUES (?,?,?,?,?,?)";
+    $datos = array($id_venta, $id_pro, $cantidad,$desc ,$precio, $sub_total);
     $data = $this->save($sql, $datos);
     if ($data == 1) {
         $res = "";
@@ -140,6 +141,7 @@ class ComprasModel extends Query{
     }
     return $res;
   }
+   
   public function getEmpresa(){
       $sql = "SELECT * FROM configuracion";
       $data = $this->select($sql);
