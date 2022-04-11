@@ -36,7 +36,7 @@
         public function historial_ventas(){
 
             $id_user = $_SESSION['id_usuario'];
-            $verificar=$this->model->verificarPermiso($id_user, 'Nueva_Venta' );
+            $verificar=$this->model->verificarPermiso($id_user, 'Historial_Ventas' );
                 if (!empty($verificar) ) {
                     $this->views->getView($this, "historial_ventas");
                 } else {

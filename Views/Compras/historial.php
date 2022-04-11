@@ -1,5 +1,5 @@
 <?php include "Views/Templates/header.php";?>
-<<div class="card">
+<div class="card">
     <div class="card-header bg-dark text-white">
         Compras
     </div>
