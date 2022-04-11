@@ -1954,8 +1954,11 @@ function alertas(mensaje, icono){
 
 }
 
-reporteStock();
-productosVendidos();
+if (document.getElementById('stockMinimo')){
+    reporteStock();
+    productosVendidos();
+}
+
 function reporteStock() {
     
     const url = base_url + "Administracion/reporteStock" ;
