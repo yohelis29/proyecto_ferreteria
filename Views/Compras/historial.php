@@ -11,6 +11,7 @@
             <th>#</th>
             <th>Total</th>
             <th>Fecha de compra</th>
+            <th>Estado</th>
             <th></th>
         </tr>
     </thead>

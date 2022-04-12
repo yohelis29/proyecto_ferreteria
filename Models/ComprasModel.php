@@ -232,6 +232,27 @@ class ComprasModel extends Query{
         return $res;
        }
 
+       // Anular Venta
+        public function getAnularVenta(int $id_venta){
+            $sql = "SELECT v.*, d.* FROM ventas v INNER JOIN detalle_ventas d ON v.id = d.id_venta WHERE v.id = $id_venta";
+            $data = $this->selectAll($sql);
+            return $data;
+        } 
+        public function getAnularV(int $id_venta){
+            $sql = "UPDATE ventas SET estado = ? WHERE id = ?";
+            $datos = array(0, $id_venta);
+            $data = $this->save($sql, $datos);
+            if ($data == 1) {
+                $res = "ok";
+            }else{
+                $res = "error";
+            }
+            return $res;
+           }
+
+
+
+
        public function clientesVenta(int $id)
        {
         $sql = "SELECT v.id, v.id_cliente, c.* FROM ventas v INNER JOIN clientes c ON c.id = v.id_cliente WHERE v.id = $id";

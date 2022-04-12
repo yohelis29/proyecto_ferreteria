@@ -1,5 +1,5 @@
 let tblUsuarios, tblClientes,tblCajas, tblCategorias, tblMedidas, tblProveedores, 
-tblProductos, tblRoles, t_historial_c;
+tblProductos, tblRoles, t_historial_c, t_historial_v, tipo;
 document.addEventListener("DOMContentLoaded", function () {
     $("#cliente").select2();
     tblUsuarios = $('#tblUsuarios').DataTable( {
@@ -153,6 +153,7 @@ document.addEventListener("DOMContentLoaded", function () {
             {'data' : 'nombre'},
             {'data' : 'total'},
             {'data' : 'fecha'},
+            {'data' : 'estado'},
             {'data' : 'acciones'}
 
         ]
@@ -1676,9 +1677,13 @@ function deleteDetalle(id, accion) {
 
 
 function procesar(accion){
-
+    if (accion == 1) {
+        tipo = 'compra'        
+    }else{
+        tipo = 'venta'
+    }
     Swal.fire({
-        title: 'Esta seguro de realizar la compra?',
+        title: '¿Está seguro de realizar la ' + tipo +'?',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -2057,6 +2062,36 @@ function btnAnularC(id){
 
 }
 
+
+function btnAnularV(id){
+   
+    Swal.fire({
+        title: '¿Está seguro de anular la Venta?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si',
+        cancelButtonText: 'No'
+    }).then((result) => {
+        if (result.isConfirmed) {
+
+            const url = base_url + "Compras/anularVenta/"+id;
+            const http = new XMLHttpRequest();
+            http.open("GET", url, true);
+            http.send();
+            http.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {   
+                    const res = JSON.parse(this.responseText);
+                    alertas(res.msg,res.icono);
+                    t_historial_v.ajax.reload();
+                }
+                
+            }
+        }
+    })
+
+}
 
 
 

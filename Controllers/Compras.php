@@ -315,9 +315,20 @@
         {
            $data = $this->model->getHistorialVentas();
            for ($i=0; $i <count($data); $i++) {
+            if ($data[$i]['estado'] == 1) {
+                $data[$i]['estado'] = '<span class="badge bg-success">Completado</span>';
+                $data[$i]['acciones'] = '<div>
+                <button class="btn btn-warning" onclick=btnAnularV('.$data[$i]['id'].')><i class="fas fa-ban"></i></button>
+                <a class="btn btn-danger" href="'.base_url."Compras/generarPdfVenta/".$data[$i]['id'].'" target="_blank"><i class="fas fa-file-pdf"></i></a>
+                <div/>';
+            }else {
+                $data[$i]['estado'] = '<span class="badge bg-danger">Anulado</span>';
                 $data[$i]['acciones'] = '<div>
                 <a class="btn btn-danger" href="'.base_url."Compras/generarPdfVenta/".$data[$i]['id'].'" target="_blank"><i class="fas fa-file-pdf"></i></a>
                 <div/>';
+            }  
+
+                
         }
            echo json_encode($data, JSON_UNESCAPED_UNICODE);
            die();
@@ -424,7 +435,7 @@
 
 
 
-        //Historia 10:
+        //Historia 10: Anular compra
         public function anularCompra($id_compra){
             $data = $this->model->getAnularCompra($id_compra);
             $anular = $this->model->getAnular($id_compra);
@@ -441,6 +452,25 @@
             echo json_encode($msg);
             die();
         }
+
+        // Anular Venta
+        public function anularVenta($id_venta){
+            $data = $this->model->getAnularVenta($id_venta);
+            $anular = $this->model->getAnularV($id_venta);
+            foreach ($data as  $row) {
+                $stock_actual = $this->model->getProductos($row['id_producto']);
+                $stock = $stock_actual["cantidad"] + $row['cantidad'];
+                $this->model->actualizarStock($stock,$row['id_producto']);
+            }
+            if ($anular == 'ok') {
+                $msg = array('msg' => 'Venta anulada', 'icono' => 'success');
+            }else{
+                $msg = array('msg' => 'Error al anular', 'icono' => 'error');
+            }
+            echo json_encode($msg);
+            die();
+        }
+
 
     }        
         

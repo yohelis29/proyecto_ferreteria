@@ -11,7 +11,8 @@
             <th>#</th>
             <th>Clientes</th>
             <th>Total</th>
-            <th>Fecha de compra</th>
+            <th>Fecha de Venta</th>
+            <th>Estado</th>
             <th></th>
         </tr>
     </thead>
