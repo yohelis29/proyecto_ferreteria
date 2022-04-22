@@ -17,8 +17,12 @@ class Cajas extends Controller{
       } else {
          header('Location: '. base_url . 'Errors/permisos');
       }
-      
         
+         public function arqueo()
+    {
+        $this->views->getView($this, "arqueo");
+    }
+         
        
     }
 
@@ -73,6 +77,28 @@ class Cajas extends Controller{
         echo json_encode($msg, JSON_UNESCAPED_UNICODE);
         die();
     }
+    
+     public function abrirArqueo()
+    {
+        $monto_inicial = $_POST['monto_inicial'];
+        $fecha_apertura = date('Y-m-d');
+        $id_usuario= $_SESSION['id_usuario'];
+        if (empty($monto_inicial) || empty ($fecha_apertura)) {
+            $msg = array ('msg' => 'Todos los campos son obligatorios', 'icono' => 'warning');
+        }else{
+                $data = $this->model->registrarArqueo($id_usuario,$monto_inicial, $fecha_apertura);
+                if ($data == "ok") {
+                    $msg = array ('msg' => 'Caja abierta con exito', 'icono' => 'success');
+                 }else if($data=="existe") {
+                     $msg =array ('msg' => 'La caja ya esta abierta', 'icono' => 'warning');
+                 }else{
+                     $msg =array ('msg' => 'Error al abrir la caja', 'icono' => 'error');
+                 }
+            }
+        echo json_encode($msg, JSON_UNESCAPED_UNICODE);
+        die();
+    }
+    
     public function editar(int $id)
     {
         $data = $this->model->editarCaja($id);
