@@ -18,7 +18,7 @@ class Cajas extends Controller{
          header('Location: '. base_url . 'Errors/permisos');
       }
         
-         public function arqueo()
+    public function arqueo()
     {
         $this->views->getView($this, "arqueo");
     }
@@ -78,7 +78,7 @@ class Cajas extends Controller{
         die();
     }
     
-     public function abrirArqueo()
+    public function abrirArqueo()
     {
         $monto_inicial = $_POST['monto_inicial'];
         $fecha_apertura = date('Y-m-d');
