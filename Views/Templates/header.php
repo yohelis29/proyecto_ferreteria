@@ -37,7 +37,7 @@
                     <div class="sb-sidenav-menu">
                         <div class="nav">
                             
-                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                               <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                                 <div class="sb-nav-link-icon"><i class="fas fa-cogs fa-2x "></i></div>
                                 Administracion
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down fa-2x"></i></div>
@@ -46,10 +46,22 @@
                                 <nav class="sb-sidenav-menu-nested nav">
                                     <a class="nav-link" href="<?php echo base_url;?>Usuarios"><i class="fas fa-user fa-2x mr-2"></i>Usuarios</a>
                                     <a class="nav-link" href="<?php echo base_url;?>Roles"><i class="fa fa-id-card fa-2x mr-2"></i>Roles</a>
-                                    <a class="nav-link" href="<?php echo base_url; ?>Cajas"><i class="fas fa-box fa-2x mr-2"></i>Cajas</a>
                                     <a class="nav-link" href="<?php echo base_url; ?>Administracion"><i class="fas fa-tools fa-2x mr-2"></i>Configuracion</a>
                                 </nav>
                             </div>
+
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCaja" aria-expanded="false" aria-controls="collapseCaja">
+                                <div class="sb-nav-link-icon"><i class="fas fa-box fa-2x "></i></div>
+                                Cajas
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down fa-2x"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseCaja" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="<?php echo base_url; ?>Cajas"><i class="fas fa-box fa-2x mr-2"></i>Cajas</a>
+                                    <a class="nav-link" href="<?php echo base_url; ?>Cajas/Arqueo"><i class="fas fa-tools fa-2x mr-2"></i>Arqueo Caja</a>
+                                </nav>
+                            </div>
+                            
                             <a class="nav-link" href="<?php echo base_url;?>Clientes">
                                 <div class="sb-nav-link-icon"><i class="fas fa-users fa-2x"></i></div>
                                 Clientes            
