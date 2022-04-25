@@ -2217,4 +2217,133 @@ function abrirArqueo(e){
 }
 
 
+/*function calcularPrecio(e){
+    e.preventDefault();
+    const cant = document.getElementById("cantidad").value;
+    const precio= document.getElementById("precio").value;
+    document.getElementById("sub_total").value= precio*cant;
+    if (e.which == 13){
+        if (cant > 0) {
+            const url = base_url + "Compras/ingresar";
+            const frm = document.getElementById("frmCompra");
+        const http = new XMLHttpRequest();
+        http.open("POST", url, true);
+        http.send(new FormData(frm));
+        http.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+               const res = JSON.parse(this.responseText);
+               if (res == 'ok'){
+                Swal.fire({
+          
+                    icon: 'success',
+                    title:'¡Producto Ingresado!',
+                    showConfirmButton: false,
+                    timer: 2000
+                })
+                   frm.reset();
+                   cargarDetalle();
+               }else if(res == 'modificado'){
+                Swal.fire({
+          
+                    icon: 'success',
+                    title:'¡Producto actualizado!',
+                    showConfirmButton: false,
+                    timer: 2000
+                })
+                   frm.reset();
+                   cargarDetalle();
+               }
+
+            }
+        }
+        }
+    }
+      
+}*/
+function ingresarApartado(e){
+
+    e.preventDefault();
+    const cant = document.getElementById("cantidad").value;
+    const precio= document.getElementById("precio").value;
+    document.getElementById("sub_total").value= precio*cant;
+    if (e.which == 13){
+        if (cant > 0) {
+            const url = base_url + "Apartados/ingresarApartado";
+            const frm = document.getElementById("formulario");
+        const http = new XMLHttpRequest();
+        http.open("POST", url, true);
+        http.send(new FormData(frm));
+        http.onreadystatechange = function () {
+            
+            if (this.readyState == 4 && this.status == 200) {
+               const res = JSON.parse(this.responseText);
+             /*  if (res == 'ok'){
+                Swal.fire({
+          
+                    icon: 'success',
+                    title:'¡Producto Ingresado!',
+                    showConfirmButton: false,
+                    timer: 2000
+                })
+                   frm.reset();
+                   cargarDetalleVenta();
+               }else if(res == 'modificado'){
+                Swal.fire({
+          
+                    icon: 'success',
+                    title:'¡Producto actualizado!',
+                    showConfirmButton: false,
+                    timer: 2000
+                })*/
+                   alertas(res.msg, res.icono);
+                frm.reset();
+                   document.getElementById("cantidad").setAttribute("disabled", "disabled");
+                   document.getElementById("codigo").focus();
+                  //cargarDetalleVenta();
+             /*   }
+           else{ Swal.fire(
+                res.msg,
+                res,
+                res.icono
+              )}*/
+
+ 
+        }
+        }
+    }
+      
+      
+}
+}
+if(document.getElementById('tblDetalleApart')){
+cargarDetalleApart()
+}
+function cargarDetalleApart() {
+    const url = base_url + "Apartados/listar";
+    const http = new XMLHttpRequest();
+    http.open("GET", url, true);
+    http.send();
+    http.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+          const res = JSON.parse(this.responseText);
+          let html = '';
+          res.detalle.forEach(row => {
+              html += `<tr>
+              <td>${row['id']}</td>
+              <td>${row['descripcion']}</td>
+              <td>${row['cantidad']}</td>
+              <td>${row['precio']}</td>
+              <td>${row['cantidad'] * row['precio']}</td>
+              <td>
+              <button class="btn btn-danger" type="button" onclick="deleteDetalle(${row['id']},2)"><i class="fas fa-trash-alt"></i></button>
+              </td>
+              </tr>`;
+    
+          });
+          document.getElementById("tblDetalleApart").innerHTML = html;
+          //document.getElementById("total").value = res.total_pagar.total;
+    
+        }
+    }
+    }
 

@@ -24,21 +24,22 @@ include "Views/Templates/header.php";
                             <div class="form-floating mb-3">
                                 <label for="codigo" class="form-label">Buscar Producto</label>
                                 <input type="hidden" id="id" name="id"></input>
-                                <input type="text" class="form-control" id="codigo" name="codigo" onkeyup="buscarCodigoVenta(event)"> </input>
+                                <input type="text" class="form-control" id="codigo" name="codigo"
+                                    onkeyup="buscarCodigoVenta(event)"> </input>
                             </div>
                         </div>
                         <div class="col-md-8">
                             <div class="form-floating mb-3">
                                 <label for="nombre" class="form-label">Descripción del Producto</label>
-                                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Descripcion del Producto" disabled> </input>
+                                <input type="text" class="form-control" id="nombre" name="nombre"
+                                    placeholder="Descripcion del Producto" disabled> </input>
                             </div>
                         </div>
 
                         <div class="col-md-4">
                             <div class="form-floating mb-3">
                                 <label for="cantidad">Cantidad</label>
-                                <input id="cantidad" class="form-control" type="number" name="cantidad"
-                                    ></input>
+                                <input id="cantidad" class="form-control" type="number" name="cantidad" onkeyup="ingresarApartado(event)"></input>
                             </div>
 
                         </div>
@@ -59,12 +60,13 @@ include "Views/Templates/header.php";
 
                         </div>
                         <div class="col-md-12 mb-2">
-                           <div class="form-group">
-                               <label for="select_cliente">Buscar Cliente</label>
-                               <select id="select_cliente" class="form-controls select2 select2-hidden-accessible" name="select_cliente" style="width: 100%;">
-                                   
-                               </select>
-                           </div>
+                            <div class="form-group">
+                                <label for="select_cliente">Buscar Cliente</label>
+                                <select id="select_cliente" class="form-controls select2 select2-hidden-accessible"
+                                    name="select_cliente" style="width: 100%;">
+
+                                </select>
+                            </div>
                         </div>
 
                         <div class="col-md-6">
@@ -84,6 +86,30 @@ include "Views/Templates/header.php";
                         </div>
 
                     </div>
+
+                    <div class="table-resposive">
+                        <table class="table table-light table-bordered table-hover">
+                            <thead class=" thead-dark">
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Descripción</th>
+                                    <th>Cantidad</th>
+                                    <th>Precio</th>
+                                    <th>Sub Total</th>
+                                    <th></th>
+
+                                </tr>
+                            </thead>
+                            <tbody id="tblDetalleApart">
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <label for="total">Total a Pagar</label>
+                        <input id="total" class="form-control" type="text" disabled >
+                    </div>
+
 
 
                 </div>
