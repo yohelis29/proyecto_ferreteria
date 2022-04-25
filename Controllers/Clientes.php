@@ -166,6 +166,20 @@
             echo json_encode($msg, JSON_UNESCAPED_UNICODE);
             die();
         }
+
+        public function buscar()
+        {
+
+          if(isset($_GET['cli'])){
+             $data['items'] = $this->model->buscarCliente($_GET['cli']);
+             echo json_encode($data, JSON_UNESCAPED_UNICODE);
+             die();
+          }
+
+      
+        }
+
+
         public function salir()
         {
             session_destroy();

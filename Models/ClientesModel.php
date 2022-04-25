@@ -78,6 +78,16 @@ class ClientesModel extends Query{
         return $data;
    
     }
+
+    public function buscarCliente($valor)
+    {
+      //  $sql = "SELECT * FROM dnis";
+       // $data = $this->selectAll($sql);
+       // return $data;
+       $sql = "SELECT id, nombre As text FROM clientes WHERE nombre LIKE '%" . $valor ."%'";
+        $data = $this->selectAll($sql);
+        return $data;
+    }
 }
 
 ?>

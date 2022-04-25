@@ -17,14 +17,16 @@ class Cajas extends Controller{
       } else {
          header('Location: '. base_url . 'Errors/permisos');
       }
-        
+      }  
+
+      
     public function arqueo()
     {
         $this->views->getView($this, "arqueo");
     }
          
        
-    }
+    
 
     public function listar()
     {

@@ -60,8 +60,8 @@ include "Views/Templates/header.php";
                         </div>
                         <div class="col-md-12 mb-2">
                            <div class="form-group">
-                               <label for="title">Buscar Cliente</label>
-                               <select id="title" class="form-control" name="title">
+                               <label for="select_cliente">Buscar Cliente</label>
+                               <select id="select_cliente" class="form-controls select2 select2-hidden-accessible" name="select_cliente" style="width: 100%;">
                                    
                                </select>
                            </div>

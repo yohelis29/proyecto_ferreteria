@@ -71,7 +71,33 @@ if (document.getElementById('calendar')){
 
 }
    
-    
+
+$("#select_cliente").select2({
+  
+   dropdownParent: $('#my_modal'),
+    ajax: {
+      url: base_url + 'Clientes/buscar',
+      dataType: 'json',
+      delay: 250,
+      data: function (params) {
+        return {
+          cli: params.term, 
+        };
+      },
+      processResults: function (data ) {
+      
+  
+        return {
+          results: data.items
+          
+        };
+      },
+      cache: true
+    },
+    placeholder: 'Buscar Cliente',
+    minimumInputLength: 2,
+  });
+
     
     $("#cliente").select2();
     tblUsuarios = $('#tblUsuarios').DataTable( {
