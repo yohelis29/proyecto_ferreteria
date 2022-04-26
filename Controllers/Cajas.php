@@ -48,6 +48,21 @@ class Cajas extends Controller{
         echo json_encode($data, JSON_UNESCAPED_UNICODE);
         die();
     }
+    public function listar_arqueo()
+    {
+        $data = $this->model->getCajas('cierre_caja');
+        for ($i=0; $i < count($data); $i++) { 
+            if ($data[$i]['estado'] == 1) {
+                $data[$i]['estado'] = '<span class="badge bg-success">Abierta</span>';
+                
+            }else{
+                $data[$i]['estado'] = '<span class="badge bg-danger">Cerrada</span>';
+                
+            }
+        }
+        echo json_encode($data, JSON_UNESCAPED_UNICODE);
+        die();
+    }
     public function registrar()
     {
         $caja = $_POST['nombre'];
@@ -133,4 +148,12 @@ class Cajas extends Controller{
         echo json_encode($msg, JSON_UNESCAPED_UNICODE);
         die();
     }
+    public function getVentas()
+    {   $id_usuario = $_SESSION['id_usuario'];
+        $data['monto_total'] = $this->model->getVentas($id_usuario);
+        $data['total_ventas'] = $this->model->getTotalVentas($id_usuario);
+        echo json_encode($data, JSON_UNESCAPED_UNICODE);
+        die();
+    }
+    
 }

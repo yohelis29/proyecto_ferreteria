@@ -1,5 +1,5 @@
 let tblUsuarios, tblClientes,tblCajas, tblCategorias, tblMedidas, tblProveedores, 
-tblProductos, tblRoles, t_historial_c, t_historial_v, tipo;
+tblProductos, tblRoles, t_historial_c, t_historial_v, tipo, t_arqueo;
 let frm = document.getElementById('formulario');
 let eliminar = document.getElementById('btnEliminar');
 document.addEventListener("DOMContentLoaded", function () {
@@ -253,6 +253,24 @@ $("#select_cliente").select2({
             {'data' : 'fecha'},
             {'data' : 'estado'},
             {'data' : 'acciones'}
+
+        ]
+    } );
+    t_arqueo = $('#t_arqueo').DataTable( {
+        ajax: {
+            url: base_url + "Cajas/listar_arqueo" ,
+            dataSrc: ''
+        },
+        columns: [ 
+            {'data' : 'id'},
+            {'data' : 'monto_inicial'},
+            {'data' : 'monto_final'},
+            {'data' : 'fecha_apertura'},
+            {'data' : 'fecha_cierre'},
+            {'data' : 'total_ventas'},
+            {'data' : 'monto_total'},
+            {'data' : 'estado'}
+            
 
         ]
     } );
@@ -2345,5 +2363,21 @@ function cargarDetalleApart() {
     
         }
     }
-    }
+}
+
+function cerrarCaja() {
+        const url = base_url + "Cajas/getVentas";
+        const http = new XMLHttpRequest();
+        http.open("GET", url, true);
+        http.send();
+        http.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {   
+                console.log(this.responseText);       
+                const res = JSON.parse(this.responseText);
+                document.getElementById('monto_final').value = res.monto_total.total;
+                document.getElementById('total_ventas').value = res.total_ventas.total;
+                $('#abrir_caja').modal('show')
+            }
+        }
+}
 

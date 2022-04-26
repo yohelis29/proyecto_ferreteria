@@ -1,14 +1,13 @@
 <?php include "Views/Templates/header.php"; ?>
-<ol class="breadcrumb mb-4 bg-primary">
-    <li class="breadcrumb-item active text-white"><h4>Arqueo de Caja</h4></li>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item active ">Arqueo de Caja</li>
 </ol>
 <button class="btn btn-primary mb-2" type="button" onclick="arqueoCaja();"><i class="fas fa-plus"></i></button>
+<button class="btn btn-primary mb-2" type="button" onclick="cerrarCaja();">Cerrar caja</button>
 <table class="table table-light" id="t_arqueo">
     <thead class="thead-dark">
         <tr>
             <th>Id</th>
-            <th>Usuario</th>
-            <th>Caja</th>
             <th>Monto_inicial</th>
             <th>Monto_final</th>
             <th>Fecha_apertura</th>
@@ -16,7 +15,6 @@
             <th>Total ventas</th>
             <th>Monto Total</th>
             <th>Estado</th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -39,13 +37,18 @@
                         <label for="monto_inicial">Monto Inicial</label>
                         <input id="monto_inicial" class="form-control" type="text" name="monto_inicial" placeholder="Monto Inicial" required>
                     </div>
-                    </div>
                     <div class="form-floating mb-3">
-                        <input type="hidden" id="id" name="id">
                         <div class="form-group">
                         <label for="fecha_apertura">Fecha Apertura</label>
                         <input id="fecha_apertura" class="form-control" type="date" value="<?php echo date('Y-m-d'); ?>" name="fecha_apertura" placeholder="Fecha Apertura" required>
                     </div>
+                    <div class="form-group">
+                        <label for="monto_final">Monto Final</label>
+                        <input id="monto_final" class="form-control" type="text" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="total_ventas">Total Ventas</label>
+                        <input id="total_ventas" class="form-control" type="text" disabled>
                     </div>
                     <button class="btn btn-primary" type="submit" id="btnAccion">Abrir</button>
                     <button class="btn btn-danger" type="button" data-bs-dismiss="modal">Cancelar</button>

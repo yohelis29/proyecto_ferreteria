@@ -89,4 +89,17 @@ class CajasModel extends Query{
         }
         return $res;
     }
+    public function getVentas(int $id_user)
+    {
+        $sql = "SELECT total, SUM(total) AS total FROM ventas WHERE id_usuario = $id_user AND estado=1 AND apertura = 1";
+        $data = $this->select($sql);
+        return $data;
+    }
+
+    public function getTotalVentas(int $id_user)
+    {
+        $sql = "SELECT COUNT(total) AS total FROM ventas WHERE id_usuario = $id_user AND estado=1 AND apertura = 1";
+        $data = $this->select($sql);
+        return $data;
+    }
 }

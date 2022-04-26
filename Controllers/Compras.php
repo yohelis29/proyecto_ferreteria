@@ -194,7 +194,7 @@
         {
             $id_usuario = $_SESSION['id_usuario'];
             $total = $this->model->calcularCompra('detalle_temp',$id_usuario);
-            $data = $this->model->registraVenta($id_cliente, $total['total']);   
+            $data = $this->model->registraVenta($id_usuario,$id_cliente, $total['total']);   
             if ($data == 'ok'){
                 $detalle = $this->model->getDetalle('detalle_temp',$id_usuario);
                 $id_venta = $this->model->getId('ventas');
