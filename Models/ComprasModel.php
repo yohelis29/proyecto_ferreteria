@@ -286,7 +286,12 @@ class ComprasModel extends Query{
            return $data;
        }
 
+       public function verificarCaja(int $id){
+        $sql = "SELECT * FROM cierre_caja WHERE id_usuario = $id AND estado = 1 ";
+        $data = $this->select($sql);
+        return $data;
 
+       } 
 
 
 }

@@ -3,7 +3,7 @@
     <li class="breadcrumb-item active ">Arqueo de Caja</li>
 </ol>
 <button class="btn btn-primary mb-2" type="button" onclick="arqueoCaja();"><i class="fas fa-plus"></i></button>
-<button class="btn btn-primary mb-2" type="button" onclick="cerrarCaja();">Cerrar caja</button>
+<button class="btn btn-warning mb-2" type="button" onclick="cerrarCaja();">Cerrar caja</button>
 <table class="table table-light" id="t_arqueo">
     <thead class="thead-dark">
         <tr>
@@ -37,19 +37,22 @@
                         <label for="monto_inicial">Monto Inicial</label>
                         <input id="monto_inicial" class="form-control" type="text" name="monto_inicial" placeholder="Monto Inicial" required>
                     </div>
-                    <div class="form-floating mb-3">
+                    
+                    <div id='ocultar_campos'>
                         <div class="form-group">
-                        <label for="fecha_apertura">Fecha Apertura</label>
-                        <input id="fecha_apertura" class="form-control" type="date" value="<?php echo date('Y-m-d'); ?>" name="fecha_apertura" placeholder="Fecha Apertura" required>
+                            <label for="monto_final">Monto Final</label>
+                            <input id="monto_final" class="form-control" type="text" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="total_ventas">Total Ventas</label>
+                            <input id="total_ventas" class="form-control" type="text" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="monto_general">Monto Total</label>
+                            <input id="monto_general" class="form-control" type="text" disabled>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="monto_final">Monto Final</label>
-                        <input id="monto_final" class="form-control" type="text" disabled>
-                    </div>
-                    <div class="form-group">
-                        <label for="total_ventas">Total Ventas</label>
-                        <input id="total_ventas" class="form-control" type="text" disabled>
-                    </div>
+
                     <button class="btn btn-primary" type="submit" id="btnAccion">Abrir</button>
                     <button class="btn btn-danger" type="button" data-bs-dismiss="modal">Cancelar</button>
                 </form>

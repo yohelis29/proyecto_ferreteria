@@ -1839,7 +1839,7 @@ function procesar(accion){
 
                         }, 300);
                     }else{ Swal.fire(
-                        'Mensaje!',
+                        'La caja está cerrada!',
                         res,
                         'error'
                     )}
@@ -2210,6 +2210,9 @@ function btnAnularV(id){
 }
 
 function arqueoCaja(){
+    document.getElementById('ocultar_campos').classList.add('d-none');
+    document.getElementById('monto_inicial').value = '';
+    document.getElementById('btnAccion').textContent = 'Abrir Caja';
     $('#abrir_caja').modal('show');
 }
 
@@ -2228,6 +2231,7 @@ function abrirArqueo(e){
             if (this.readyState == 4 && this.status == 200) {          
                 const res = JSON.parse(this.responseText);
                 alertas(res.msg, res.icono);
+                t_arqueo.ajax.reload();
                 $('#abrir_caja').modal('hide')
             }
         }
@@ -2278,6 +2282,7 @@ function abrirArqueo(e){
     }
       
 }*/
+
 function ingresarApartado(e){
 
     e.preventDefault();
@@ -2372,10 +2377,14 @@ function cerrarCaja() {
         http.send();
         http.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {   
-                console.log(this.responseText);       
                 const res = JSON.parse(this.responseText);
                 document.getElementById('monto_final').value = res.monto_total.total;
                 document.getElementById('total_ventas').value = res.total_ventas.total;
+                document.getElementById('monto_inicial').value = res.inicial.monto_inicial;
+                document.getElementById('monto_general').value = res.monto_general;
+                document.getElementById('id').value = res.inicial.id;
+                document.getElementById('ocultar_campos').classList.remove('d-none');
+                document.getElementById('btnAccion').textContent = 'Cerrar Caja';
                 $('#abrir_caja').modal('show')
             }
         }

@@ -102,4 +102,35 @@ class CajasModel extends Query{
         $data = $this->select($sql);
         return $data;
     }
+
+    public function getMontoInicial(int $id_user)
+    {
+        $sql = "SELECT id, monto_inicial FROM cierre_caja WHERE id_usuario = $id_user";
+        $data = $this->select($sql);
+        return $data;
+    }
+    public function actualizarArqueo(string $final, string $cierre, string $ventas, string $general, int $id)
+    {
+       
+            $sql = "UPDATE cierre_caja SET monto_final = ?, fecha_cierre = ?, total_ventas = ?, monto_total = ?, estado = ? WHERE id = ?";
+            $datos = array($final, $cierre, $ventas, $general,0, $id);
+            $data = $this->save($sql, $datos);
+            if ($data == 1) {
+                $res = "ok";
+            }else{
+                $res = "error";
+            }
+        return $res;
+    }
+
+    public function actualizarApertura(int $id)
+    {
+       
+            $sql = "UPDATE ventas SET apertura = ? WHERE id_usuario = ?";
+            $datos = array(0, $id_usuario);
+            $this->save($sql, $datos);
+    }
+
+
+
 }
