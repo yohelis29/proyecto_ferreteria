@@ -482,6 +482,42 @@
             die();
         }
 
+        public function pdf (){
+
+            $desde = $_POST['desde'];
+            $hasta = $_POST['hasta'];
+            if (empty($desde) || empty($hasta)) {
+                $data = $this->model->getHistorialVentas();
+            }else{
+                $data = $this->model->getRangoFechas($desde, $hasta);
+            }
+            
+            require('Libraries/fpdf/fpdf.php');
+            $pdf = new FPDF('P', 'mm', 'A4');
+            $pdf->AddPage();
+            $pdf->SetMargins(10,0,0);
+            $pdf->SetTitle('Reporte Ventas');
+            $pdf->SetFont('Arial','B',12);
+            $pdf->SetFillColor(0, 0, 0);
+            $pdf->SetTextColor(255, 255, 255 );
+            $pdf->Cell(10, 5, 'Id', 0, 0, 'L', true);
+                $pdf->Cell(80, 5, 'Cliente', 0, 0, 'L',true);
+                $pdf->Cell(40, 5, 'Fecha', 0, 0, 'L',true);
+                $pdf->Cell(25, 5, 'Total', 0, 1, 'L',true);
+                $pdf->SetFont('Arial','',10);
+                $pdf->SetTextColor(0, 0, 0);
+                //$pdf->Cell(10, 5, 'Hora', 0, 1, 'L');
+            foreach ($data as $row) {
+                $pdf->Cell(10, 5, $row['id'], 0, 0, 'L');
+                $pdf->Cell(80, 5, $row['nombre'], 0, 0, 'L');
+                $pdf->Cell(40, 5, $row['fecha'], 0, 0, 'L');
+                $pdf->Cell(25, 5, $row['total'], 0, 1, 'L');
+                //$pdf->Cell(10, 5, $row['hora'], 0, 1, 'L');
+            }
+            
+            $pdf->Output();
+        }
+
 
     }        
         
