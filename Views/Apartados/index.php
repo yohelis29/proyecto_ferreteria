@@ -79,7 +79,7 @@ include "Views/Templates/header.php";
 
                         <div class="col-md-6">
                             <div class="form-floating mb-3">
-                                <label for="abono" class="form-label">Monto Abonar</label>
+                                <label for="abono" class="form-label">Monto Abonar *</label>
                                 <input type="text" class="form-control" id="abono" name="abono"> </input>
 
                             </div>
@@ -105,11 +105,10 @@ include "Views/Templates/header.php";
                         </table>
                     </div>
 
-                    <div class="form-floating mb-3">
+                    <div class="form-group">
                         <label for="total">Total a Pagar</label>
-                        <input id="total" class="form-control" type="text" disabled >
+                        <h1 id="total"></h1> 
                     </div>
-
 
 
                 </div>

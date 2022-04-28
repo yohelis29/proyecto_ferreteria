@@ -68,6 +68,40 @@ if (document.getElementById('calendar')){
         }
     });
     calendar.render();
+    const btnAccion = document.getElementById('btnAccion');
+    btnAccion.addEventListener('click', function () {
+        const select_cliente = document.getElementById('select_cliente').value;
+        const abono = document.getElementById('abono').value;
+        if (select_cliente == '' || abono == '') {
+            Swal.fire(
+                'Aviso',
+                'Todos los campos son requeridos',
+                'warning'
+            )
+        } else {
+            const url = base_url + 'Apartados/registrar';
+            const http = new XMLHttpRequest();
+            http.open('POST', url, true);
+            http.send(new FormData(frm));
+            http.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    const respuesta = JSON.parse(this.responseText);
+                    console.log(respuesta);
+                    if (respuesta.estado) {
+                        calendar.refetchEvents();
+                    }
+                    myModal.hide();
+                    Swal.fire(
+                        'Aviso',
+                        respuesta.msg,
+                        respuesta.tipo
+
+                    )
+                }
+            }
+
+        }
+    })
 
 }
    
@@ -1704,7 +1738,7 @@ http.onreadystatechange = function () {
           </tr>`;
 
       });
-      document.getElementById("tblDetalleVenta").innerHTML = html;
+      document.getElementById("tblDetalle").innerHTML = html;
       document.getElementById("total").value = res.total_pagar.total;
 
     }
@@ -1749,10 +1783,12 @@ function deleteDetalle(id, accion) {
       }).then((result) => {
         if (result.isConfirmed) {
             let url;
-            if(accion == 1){
-                url = base_url + "Compras/delete/"+id
-            }else{
-                url = base_url + "Compras/deleteVenta/"+id 
+            if (accion == 1) {
+                url = base_url + "Compras/delete/" + id
+            } else if (accion == 2) {
+                url = base_url + "Compras/deleteVenta/" + id
+            } else {
+                url = base_url + "Compras/deleteApartado/" + id
             }
            
             const http = new XMLHttpRequest();
@@ -1769,10 +1805,12 @@ function deleteDetalle(id, accion) {
                 showConfirmButton: false,
                 timer: 3000
                 }) 
-                if(accion == 1){
+                if (accion == 1) {
                     cargarDetalle();
-                }else{
+                } else if (accion == 2) {
                     cargarDetalleVenta();
+                } else {
+                    cargarDetalleApart();
                 }
          }else{
             Swal.fire({
@@ -2322,7 +2360,7 @@ function ingresarApartado(e){
                 frm.reset();
                    document.getElementById("cantidad").setAttribute("disabled", "disabled");
                    document.getElementById("codigo").focus();
-                  //cargarDetalleVenta();
+                   cargarDetalleApart();
              /*   }
            else{ Swal.fire(
                 res.msg,
@@ -2358,13 +2396,14 @@ function cargarDetalleApart() {
               <td>${row['precio']}</td>
               <td>${row['cantidad'] * row['precio']}</td>
               <td>
-              <button class="btn btn-danger" type="button" onclick="deleteDetalle(${row['id']},2)"><i class="fas fa-trash-alt"></i></button>
+              <button class="btn btn-danger" type="button" onclick="deleteDetalle(${row['id']},3)"><i class="fas fa-trash-alt"></i></button>
               </td>
               </tr>`;
     
           });
           document.getElementById("tblDetalleApart").innerHTML = html;
-          //document.getElementById("total").value = res.total_pagar.total;
+          document.getElementById("total").textContent = res.total_pagar;
+          alert(res.total_pagar);
     
         }
     }

@@ -60,12 +60,39 @@
 
    public function listar()
    {
-       $id_usuario = $_SESSION['id_usuario'];
-       $data['detalle'] = $this->model->getDetalle($id_usuario);
-     //  $data['total_pagar'] = $this->model->calcularApartado( $id_usuario);
-       echo json_encode($data, JSON_UNESCAPED_UNICODE);
-       die();
-   }
+    $id_usuario = $_SESSION['id_usuario'];
+    $data['detalle'] = $this->model->getDetalle($id_usuario);
+    $total = 0.00;
+    for ($i=0; $i < count( $data['detalle']) ; $i++) { 
+       $precio =  $data['detalle'][$i]['precio'];
+       $cantidad =  $data['detalle'][$i]['cantidad'];
+       $total = $total + ($precio * $cantidad);
+    }
+    $data['total_pagar'] = number_format($total, 2, '.', ',');
+    echo json_encode($data, JSON_UNESCAPED_UNICODE);
+    die();
+}
+public function registrar()
+    {
+        $id_cliente = $_POST['select_cliente'];
+        $abono = $_POST['abono'];
+        $start = $_POST['start'];
+        if (empty($caja)) {
+            $msg = "Todos los campos son obligatorios";
+        }else{
+            
+                    $data = $this->model->registrarApartado($id_cliente, $f_retiro, $abono);
+                    if ($data == "ok") {
+                        $msg = "Apartado";
+                     }else {
+                         $msg ="Error al apartar";
+                     }
+                     
+            
+        }
+        echo json_encode($msg, JSON_UNESCAPED_UNICODE);
+        die();
+    }
       
     }
 ?>

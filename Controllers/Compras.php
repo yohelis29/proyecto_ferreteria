@@ -160,6 +160,17 @@
             echo json_encode($msg);
             die();
         }
+        public function deleteApartado($id)
+        {
+            $data = $this->model->deleteDetalleA($id);
+            if($data=='ok'){
+                 $msg = 'ok';
+            }else{
+                  $msg = 'error';
+            }
+            echo json_encode($msg);
+            die();
+        }
         //Yese
         public function registrarCompra()
         {

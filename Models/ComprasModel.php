@@ -79,7 +79,18 @@ class ComprasModel extends Query{
     }
     return $res;
    }
-   
+   public function deleteDetalleA(int $id)
+   {
+    $sql = "DELETE FROM detalle_temp_apartado WHERE id = ?";
+    $datos = array($id);
+    $data = $this->save($sql, $datos);
+    if ($data == 1) {
+        $res = "ok";
+    }else{
+        $res = "error";
+    }
+    return $res;
+   }
    public function consultarDetalle(string $table,int $id_producto, int $id_usuario)
    {
        $sql = "SELECT * FROM $table WHERE id_producto = $id_producto AND id_usuario = $id_usuario ";
